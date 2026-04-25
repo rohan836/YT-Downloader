@@ -203,6 +203,110 @@
     </div>
   </div>
 
+  <!-- Advanced Options (collapsible) -->
+  <details class="advanced-panel" id="advancedPanel">
+    <summary class="section-label" style="cursor:pointer;user-select:none">🚀 Advanced Options</summary>
+
+    <div class="adv-grid">
+      <!-- Audio Format -->
+      <div class="card adv-card">
+        <h3>🎵 Audio Format</h3>
+        <select class="drawer-input" id="audioFormat">
+          <option value="mp3" selected>MP3</option>
+          <option value="aac">AAC</option>
+          <option value="flac">FLAC (Lossless)</option>
+          <option value="opus">Opus</option>
+          <option value="wav">WAV</option>
+          <option value="m4a">M4A</option>
+          <option value="vorbis">Vorbis (OGG)</option>
+        </select>
+      </div>
+
+      <!-- Concurrent Fragments -->
+      <div class="card adv-card">
+        <h3>⚡ Parallel Fragments</h3>
+        <div class="range-row">
+          <input type="range" id="concurrentFragments" min="1" max="16" value="4" class="range-slider"/>
+          <span class="range-val" id="concurrentFragmentsVal">4</span>
+        </div>
+        <p class="adv-hint">Higher = faster (may cause bans on some sites)</p>
+      </div>
+
+      <!-- Playlist Range -->
+      <div class="card adv-card">
+        <h3>📋 Playlist Range</h3>
+        <input class="drawer-input" id="playlistRange" type="text" placeholder="e.g. 1:10 or 5:20"/>
+        <p class="adv-hint">Leave empty to download all items</p>
+      </div>
+
+      <!-- Rate Limit -->
+      <div class="card adv-card">
+        <h3>🔒 Rate Limit</h3>
+        <input class="drawer-input" id="rateLimit" type="text" placeholder="e.g. 10M or 500K"/>
+        <p class="adv-hint">Cap bandwidth (empty = unlimited)</p>
+      </div>
+    </div>
+
+    <!-- Toggle Switches Row -->
+    <div class="toggle-grid">
+      <label class="toggle-item">
+        <input type="checkbox" id="sponsorBlock"/>
+        <span class="toggle-slider"></span>
+        <span>🛡️ SponsorBlock <small>(remove ads)</small></span>
+      </label>
+      <label class="toggle-item">
+        <input type="checkbox" id="subtitles"/>
+        <span class="toggle-slider"></span>
+        <span>📝 Download Subtitles</span>
+      </label>
+      <label class="toggle-item">
+        <input type="checkbox" id="embedSubs"/>
+        <span class="toggle-slider"></span>
+        <span>📎 Embed Subtitles in Video</span>
+      </label>
+      <label class="toggle-item">
+        <input type="checkbox" id="embedChapters" checked/>
+        <span class="toggle-slider"></span>
+        <span>📖 Embed Chapters</span>
+      </label>
+      <label class="toggle-item">
+        <input type="checkbox" id="writeThumbnail"/>
+        <span class="toggle-slider"></span>
+        <span>🖼️ Save Thumbnail to Disk</span>
+      </label>
+      <label class="toggle-item">
+        <input type="checkbox" id="restrictFilenames"/>
+        <span class="toggle-slider"></span>
+        <span>🔤 ASCII-only Filenames</span>
+      </label>
+    </div>
+
+    <!-- Subtitle language (shown when subtitles enabled) -->
+    <div id="subtitleLangsRow" class="adv-sub-row" style="display:none">
+      <label>Subtitle Languages</label>
+      <input class="drawer-input" id="subtitleLangs" type="text" placeholder="en,hi,ar or all" value="en"/>
+    </div>
+
+    <!-- Proxy & Impersonation -->
+    <div class="adv-grid" style="margin-top:12px">
+      <div class="card adv-card">
+        <h3>🌐 Proxy</h3>
+        <input class="drawer-input" id="proxy" type="text" placeholder="socks5://127.0.0.1:1080"/>
+        <p class="adv-hint">For geo-blocked content</p>
+      </div>
+      <div class="card adv-card">
+        <h3>🕵️ Impersonate Browser</h3>
+        <select class="drawer-input" id="impersonate">
+          <option value="">Disabled</option>
+          <option value="chrome">Chrome</option>
+          <option value="edge">Edge</option>
+          <option value="safari">Safari</option>
+        </select>
+        <p class="adv-hint">Bypass anti-bot protections</p>
+      </div>
+    </div>
+  </details>
+
   <!-- Start Button -->
   <div class="start-section">
     <button class="btn btn-primary" id="startBtn">⬇ Start Download</button>

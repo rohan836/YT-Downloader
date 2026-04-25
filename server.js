@@ -50,7 +50,22 @@ const DEFAULT_CONFIG = {
   ytdlpPath: 'yt-dlp',
   theme: 'dark',
   accentColor: '#7c3aed',
-  port: 3131
+  port: 3131,
+  // ── Advanced Features ──
+  audioFormat: 'mp3',
+  concurrentFragments: 4,
+  sponsorBlock: false,
+  subtitles: false,
+  subtitleLangs: 'en',
+  embedSubs: false,
+  embedChapters: true,
+  writeThumbnail: false,
+  restrictFilenames: false,
+  trimFilenames: 200,
+  proxy: '',
+  impersonate: '',
+  rateLimit: '',
+  playlistRange: ''
 };
 
 // ── Config Helpers ─────────────────────────────────────────────────────────
@@ -114,7 +129,7 @@ function resolveCookie(config, url) {
 }
 
 // ── Build yt-dlp Args ──────────────────────────────────────────────────────
-function buildArgs(config, url, mode, speed) {
+function buildArgs(config, url, mode, speed, overrides = {}) {
   const cookieArgs = resolveCookie(config, url);
   const speedArgs = {
     Fast: [],
@@ -124,6 +139,46 @@ function buildArgs(config, url, mode, speed) {
 
   const base = [...cookieArgs, '--ignore-errors', '--lazy-playlist'];
 
+  // ── Advanced flags ──
+  const adv = [];
+  const cfg = { ...config, ...overrides };
+
+  // Concurrent fragments
+  const frags = parseInt(cfg.concurrentFragments) || 1;
+  if (frags > 1) adv.push('-N', String(frags));
+
+  // SponsorBlock
+  if (cfg.sponsorBlock) adv.push('--sponsorblock-remove', 'default');
+
+  // Subtitles
+  if (cfg.subtitles) {
+    adv.push('--write-subs', '--sub-langs', cfg.subtitleLangs || 'en');
+    if (cfg.embedSubs) adv.push('--embed-subs');
+  }
+
+  // Chapters
+  if (cfg.embedChapters) adv.push('--embed-chapters');
+
+  // Thumbnail to disk
+  if (cfg.writeThumbnail) adv.push('--write-thumbnail');
+
+  // Filename safety
+  if (cfg.restrictFilenames) adv.push('--restrict-filenames');
+  const trim = parseInt(cfg.trimFilenames);
+  if (trim && trim > 0) adv.push('--trim-filenames', String(trim));
+
+  // Proxy
+  if (cfg.proxy) adv.push('--proxy', cfg.proxy);
+
+  // Browser impersonation
+  if (cfg.impersonate) adv.push('--impersonate', cfg.impersonate);
+
+  // Rate limit
+  if (cfg.rateLimit) adv.push('--limit-rate', cfg.rateLimit);
+
+  // Playlist range
+  if (cfg.playlistRange) adv.push('-I', cfg.playlistRange);
+
   // Ensure all directories exist
   [config.audioFolder, config.videoFolder, config.fourKFolder,
    config.listsFolder, config.backupsFolder, config.cookiesDir,
@@ -131,9 +186,11 @@ function buildArgs(config, url, mode, speed) {
     if (d) fs.mkdirSync(d, { recursive: true });
   });
 
+  const audioFmt = cfg.audioFormat || 'mp3';
+
   switch (mode) {
     case 'Audio':
-      return { args: [...base, '-x', '--audio-format', 'mp3', '--audio-quality', '0',
+      return { args: [...base, ...adv, '-x', '--audio-format', audioFmt, '--audio-quality', '0',
         '-o', path.join(config.audioFolder, '%(title)s.%(ext)s'),
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_audio.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
@@ -141,7 +198,7 @@ function buildArgs(config, url, mode, speed) {
         failedLog: path.join(config.logsFailedDir, 'failed_audio.txt') };
 
     case 'Video':
-      return { args: [...base, '-o', path.join(config.videoFolder, '%(title)s.%(ext)s'),
+      return { args: [...base, ...adv, '-o', path.join(config.videoFolder, '%(title)s.%(ext)s'),
         '-f', 'bestvideo+bestaudio/best', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_video.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
@@ -149,7 +206,7 @@ function buildArgs(config, url, mode, speed) {
         failedLog: path.join(config.logsFailedDir, 'failed_video.txt') };
 
     case '4K':
-      return { args: [...base, '-o', path.join(config.fourKFolder, '%(title)s.%(ext)s'),
+      return { args: [...base, ...adv, '-o', path.join(config.fourKFolder, '%(title)s.%(ext)s'),
         '-f', 'bestvideo[height<=2160]+bestaudio/best[height<=2160]', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_4k.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
@@ -206,7 +263,7 @@ wss.on('connection', (ws) => {
         break;
 
       case 'startDownload': {
-        const { url, mode, speed, downloadId } = msg;
+        const { url, mode, speed, downloadId, overrides } = msg;
         const config = loadConfig();
 
         if (!url || !mode) {
@@ -214,7 +271,7 @@ wss.on('connection', (ws) => {
           return;
         }
 
-        const built = buildArgs(config, url, mode, speed || config.defaultSpeed);
+        const built = buildArgs(config, url, mode, speed || config.defaultSpeed, overrides || {});
         if (!built) {
           ws.send(JSON.stringify({ type: 'error', downloadId, text: 'Unknown mode: ' + mode }));
           return;

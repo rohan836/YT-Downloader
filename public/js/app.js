@@ -52,6 +52,23 @@ function applyConfig(cfg) {
   el('accentColorPicker').value    = cfg.accentColor       || '#7c3aed';
   el('accentColorHex').textContent = cfg.accentColor       || '#7c3aed';
 
+  // Advanced options
+  el('audioFormat').value          = cfg.audioFormat           || 'mp3';
+  el('concurrentFragments').value  = cfg.concurrentFragments   || 4;
+  el('concurrentFragmentsVal').textContent = cfg.concurrentFragments || 4;
+  el('sponsorBlock').checked       = !!cfg.sponsorBlock;
+  el('subtitles').checked          = !!cfg.subtitles;
+  el('embedSubs').checked          = !!cfg.embedSubs;
+  el('embedChapters').checked      = cfg.embedChapters !== false;
+  el('writeThumbnail').checked     = !!cfg.writeThumbnail;
+  el('restrictFilenames').checked  = !!cfg.restrictFilenames;
+  el('subtitleLangs').value        = cfg.subtitleLangs || 'en';
+  el('playlistRange').value        = cfg.playlistRange || '';
+  el('rateLimit').value            = cfg.rateLimit     || '';
+  el('proxy').value                = cfg.proxy         || '';
+  el('impersonate').value          = cfg.impersonate   || '';
+  updateSubtitleRow();
+
   // Speed
   const speedMap = { Fast: 'speedFast', Medium: 'speedMedium', Slow: 'speedSlow' };
   const sid = speedMap[cfg.defaultSpeed] || 'speedMedium';
@@ -135,6 +152,34 @@ function updateCookieSub(mode) {
   el('cookieSubManual').style.display  = mode === 'Manual'  ? '' : 'none';
 }
 
+// ── Advanced Controls ────────────────────────────────────────────────────
+el('concurrentFragments').addEventListener('input', (e) => {
+  el('concurrentFragmentsVal').textContent = e.target.value;
+});
+
+el('subtitles').addEventListener('change', updateSubtitleRow);
+function updateSubtitleRow() {
+  el('subtitleLangsRow').style.display = el('subtitles').checked ? '' : 'none';
+}
+
+function getAdvancedOverrides() {
+  return {
+    audioFormat:         el('audioFormat').value,
+    concurrentFragments: parseInt(el('concurrentFragments').value) || 4,
+    sponsorBlock:        el('sponsorBlock').checked,
+    subtitles:           el('subtitles').checked,
+    subtitleLangs:       el('subtitleLangs').value || 'en',
+    embedSubs:           el('embedSubs').checked,
+    embedChapters:       el('embedChapters').checked,
+    writeThumbnail:      el('writeThumbnail').checked,
+    restrictFilenames:   el('restrictFilenames').checked,
+    playlistRange:       el('playlistRange').value.trim(),
+    rateLimit:           el('rateLimit').value.trim(),
+    proxy:               el('proxy').value.trim(),
+    impersonate:         el('impersonate').value,
+  };
+}
+
 // ── Start / Cancel ─────────────────────────────────────────────────────────
 let currentDownloadId = null;
 let isRunning = false;
@@ -169,7 +214,7 @@ el('startBtn').addEventListener('click', () => {
   el('startBtn').classList.add('running');
   el('progressSection').style.display = '';
 
-  send({ type: 'startDownload', url, mode: selectedMode, speed, downloadId: currentDownloadId });
+  send({ type: 'startDownload', url, mode: selectedMode, speed, downloadId: currentDownloadId, overrides: getAdvancedOverrides() });
 });
 
 // ── Progress Items ─────────────────────────────────────────────────────────
