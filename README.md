@@ -100,6 +100,12 @@ D:\YT-Downloads\
 
 ---
 
+## 📖 Full Feature Guide
+
+**→ [Read the complete GUIDE.md](GUIDE.md)** — every feature explained step-by-step with real examples, input formats, tips, and troubleshooting.
+
+---
+
 ## 🎨 The Interface Explained
 
 The app is divided into a few key sections:
