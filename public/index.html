@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YT-Downloader — Smart Media Downloader</title>
+  <meta name="description" content="Modern, fully-customizable yt-dlp desktop downloader with real-time progress, cookie management and download history."/>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<div class="bg-orbs"></div>
+<div id="toastContainer"></div>
+
+<!-- ── Settings Drawer ─────────────────────────────────────────────────── -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="settingsDrawer" role="dialog" aria-label="Settings">
+  <h2>⚙️ Settings</h2>
+
+  <div class="drawer-section">
+    <label>🎵 Audio Folder</label>
+    <input class="drawer-input" id="cfgAudioFolder" type="text" placeholder="D:\YT-Downloads\Audio"/>
+  </div>
+  <div class="drawer-section">
+    <label>🎬 Video Folder</label>
+    <input class="drawer-input" id="cfgVideoFolder" type="text" placeholder="D:\YT-Downloads\Video"/>
+  </div>
+  <div class="drawer-section">
+    <label>🎥 4K Folder</label>
+    <input class="drawer-input" id="cfgFourKFolder" type="text" placeholder="D:\YT-Downloads\4K"/>
+  </div>
+  <div class="drawer-section">
+    <label>📋 Lists Folder</label>
+    <input class="drawer-input" id="cfgListsFolder" type="text" placeholder="D:\YT-Downloads\Lists"/>
+  </div>
+  <div class="drawer-section">
+    <label>💾 Backups Folder</label>
+    <input class="drawer-input" id="cfgBackupsFolder" type="text" placeholder="D:\YT-Downloads\Backups"/>
+  </div>
+  <div class="drawer-section">
+    <label>🍪 Cookies Directory</label>
+    <input class="drawer-input" id="cfgCookiesDir" type="text" placeholder="D:\YT-Downloads\Cookies"/>
+  </div>
+  <div class="drawer-section">
+    <label>❌ Failed Logs Folder</label>
+    <input class="drawer-input" id="cfgLogsFailedDir" type="text" placeholder="D:\YT-Downloads\Logs\Failed"/>
+  </div>
+  <div class="drawer-section">
+    <label>🔁 Duplicates Logs Folder</label>
+    <input class="drawer-input" id="cfgLogsDuplicatesDir" type="text" placeholder="D:\YT-Downloads\Logs\Duplicates"/>
+  </div>
+  <div class="drawer-section">
+    <label>yt-dlp Path / Command</label>
+    <input class="drawer-input" id="cfgYtdlpPath" type="text" placeholder="yt-dlp"/>
+    <p style="font-size:.75rem;color:var(--text3);margin-top:5px">Leave as "yt-dlp" if it's in your PATH</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="drawer-section">
+    <label>Theme</label>
+    <div class="radio-group" style="flex-direction:row;gap:16px">
+      <label class="radio-item" style="padding:8px 14px">
+        <input type="radio" name="theme" value="dark" id="themeDark"/>
+        <label for="themeDark">🌙 Dark</label>
+      </label>
+      <label class="radio-item" style="padding:8px 14px">
+        <input type="radio" name="theme" value="light" id="themeLight"/>
+        <label for="themeLight">☀️ Light</label>
+      </label>
+    </div>
+  </div>
+  <div class="drawer-section">
+    <label>Accent Color</label>
+    <div class="color-row">
+      <input type="color" id="accentColorPicker" value="#7c3aed"/>
+      <span id="accentColorHex" style="font-size:.875rem;color:var(--text2)">#7c3aed</span>
+      <button class="btn btn-sm" id="resetAccent">Reset</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="drawer-section">
+    <label>Server Port</label>
+    <input class="drawer-input" id="cfgPort" type="number" placeholder="3131"/>
+    <p style="font-size:.75rem;color:var(--text3);margin-top:5px">Restart the app after changing the port</p>
+  </div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="saveSettingsBtn">💾 Save</button>
+    <button class="btn" id="updateYtdlpBtn">🔄 Update yt-dlp</button>
+    <button class="btn btn-icon" id="closeDrawerBtn" title="Close">✕</button>
+  </div>
+</aside>
+
+<!-- ── Main App ─────────────────────────────────────────────────────────── -->
+<div class="app">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⬇</div>
+      <h1>YT-<span>Downloader</span></h1>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-icon" id="themeToggleBtn" title="Toggle theme">🌙</button>
+      <button class="btn" id="openSettingsBtn">⚙️ Settings</button>
+    </div>
+  </header>
+
+  <!-- URL Input -->
+  <div class="url-section">
+    <p class="section-label">Paste URL</p>
+    <div class="url-box">
+      <span class="url-platform" id="urlPlatform">🔗</span>
+      <input type="url" id="urlInput" placeholder="Paste YouTube, Instagram, TikTok, Vimeo, Twitch… URL" autocomplete="off" spellcheck="false"/>
+      <button class="url-clear" id="urlClearBtn" title="Clear">✕</button>
+    </div>
+  </div>
+
+  <!-- Mode Chips -->
+  <p class="section-label">Download Mode</p>
+  <div class="mode-grid" id="modeGrid">
+    <div class="mode-chip active" data-mode="Audio">
+      <span class="mode-chip-icon">🎵</span>
+      <span class="mode-chip-label">MP3 Audio</span>
+    </div>
+    <div class="mode-chip" data-mode="Video">
+      <span class="mode-chip-icon">🎬</span>
+      <span class="mode-chip-label">1080p Video</span>
+    </div>
+    <div class="mode-chip" data-mode="4K">
+      <span class="mode-chip-icon">🎥</span>
+      <span class="mode-chip-label">4K Video</span>
+    </div>
+    <div class="mode-chip" data-mode="ListAudio">
+      <span class="mode-chip-icon">📋</span>
+      <span class="mode-chip-label">List (Audio)</span>
+    </div>
+    <div class="mode-chip" data-mode="ListVideo">
+      <span class="mode-chip-icon">📝</span>
+      <span class="mode-chip-label">List (Video)</span>
+    </div>
+    <div class="mode-chip" data-mode="BackupAudio">
+      <span class="mode-chip-icon">💾</span>
+      <span class="mode-chip-label">JSON Backup</span>
+    </div>
+  </div>
+
+  <!-- Speed + Cookies -->
+  <div class="settings-row">
+    <div class="card settings-card">
+      <h3>⚡ Speed</h3>
+      <div class="radio-group" id="speedGroup">
+        <label class="radio-item">
+          <input type="radio" name="speed" value="Fast" id="speedFast"/>
+          <label for="speedFast">Fast — Max Speed</label>
+          <span class="radio-badge">⚡</span>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="speed" value="Medium" id="speedMedium" checked/>
+          <label for="speedMedium">Medium — Safe</label>
+          <span class="radio-badge">⚖️</span>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="speed" value="Slow" id="speedSlow"/>
+          <label for="speedSlow">Slow — Extra Safe</label>
+          <span class="radio-badge">🐢</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card settings-card">
+      <h3>🍪 Cookies</h3>
+      <div class="radio-group" id="cookieGroup">
+        <label class="radio-item">
+          <input type="radio" name="cookie" value="Auto" id="cookieAuto" checked/>
+          <label for="cookieAuto">Auto-detect</label>
+          <span class="radio-badge">🤖</span>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="cookie" value="Browser" id="cookieBrowser"/>
+          <label for="cookieBrowser">From Browser</label>
+          <span class="radio-badge">🌐</span>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="cookie" value="Manual" id="cookieManual"/>
+          <label for="cookieManual">Manual File</label>
+          <span class="radio-badge">📁</span>
+        </label>
+        <label class="radio-item">
+          <input type="radio" name="cookie" value="None" id="cookieNone"/>
+          <label for="cookieNone">Disabled</label>
+          <span class="radio-badge">🚫</span>
+        </label>
+      </div>
+      <!-- Sub-options shown dynamically -->
+      <div id="cookieSubAuto" class="cookie-sub" style="margin-top:8px;font-size:.75rem;color:var(--text3)">Auto-matches URL to cookie file in your cookies dir.</div>
+      <div id="cookieSubBrowser" class="cookie-sub" style="display:none;margin-top:8px">
+        <input class="drawer-input" id="browserNameInput" placeholder="chrome / edge / firefox" style="font-size:.8rem;padding:7px 10px"/>
+      </div>
+      <div id="cookieSubManual" class="cookie-sub" style="display:none;margin-top:8px">
+        <input class="drawer-input" id="manualCookieInput" placeholder="filename.txt or full path" style="font-size:.8rem;padding:7px 10px"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Button -->
+  <div class="start-section">
+    <button class="btn btn-primary" id="startBtn">⬇ Start Download</button>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-section" id="progressSection" style="display:none">
+    <p class="section-label">Progress</p>
+    <div id="progressList"></div>
+  </div>
+
+  <!-- History -->
+  <div class="history-section">
+    <div class="card">
+      <div class="history-header">
+        <h2>📜 Download History</h2>
+        <input type="search" id="histSearch" placeholder="🔍 Search…"/>
+        <button class="btn btn-sm btn-danger" id="clearHistBtn">Clear</button>
+      </div>
+      <div id="historyList">
+        <p class="empty-hist">No downloads yet</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
