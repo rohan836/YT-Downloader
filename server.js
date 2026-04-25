@@ -65,8 +65,24 @@ const DEFAULT_CONFIG = {
   proxy: '',
   impersonate: '',
   rateLimit: '',
-  playlistRange: ''
+  playlistRange: '',
+  // ── New Features ──
+  outputTemplate: 'clean',
+  formatSort: '',
+  splitChapters: false,
+  dateAfter: '',
+  dateBefore: '',
+  minDuration: '',
+  maxDuration: '',
+  downloadSections: '',
 };
+
+const PROFILES_FILE = path.join(__dirname, 'profiles.json');
+function loadProfiles() {
+  try { if (fs.existsSync(PROFILES_FILE)) return JSON.parse(fs.readFileSync(PROFILES_FILE, 'utf8')); } catch {}
+  return {};
+}
+function saveProfiles(p) { fs.writeFileSync(PROFILES_FILE, JSON.stringify(p, null, 2)); }
 
 // ── Config Helpers ─────────────────────────────────────────────────────────
 function loadConfig() {
@@ -179,6 +195,25 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
   // Playlist range
   if (cfg.playlistRange) adv.push('-I', cfg.playlistRange);
 
+  // Format sorting
+  if (cfg.formatSort) adv.push('-S', cfg.formatSort);
+
+  // Split chapters
+  if (cfg.splitChapters) adv.push('--split-chapters');
+
+  // Date filters
+  if (cfg.dateAfter) adv.push('--dateafter', cfg.dateAfter);
+  if (cfg.dateBefore) adv.push('--datebefore', cfg.dateBefore);
+
+  // Duration filters
+  const minDur = parseInt(cfg.minDuration);
+  const maxDur = parseInt(cfg.maxDuration);
+  if (minDur > 0) adv.push('--match-filters', `duration>=${minDur}`);
+  if (maxDur > 0) adv.push('--match-filters', `duration<=${maxDur}`);
+
+  // Download sections (clip)
+  if (cfg.downloadSections) adv.push('--download-sections', cfg.downloadSections);
+
   // Ensure all directories exist
   [config.audioFolder, config.videoFolder, config.fourKFolder,
    config.listsFolder, config.backupsFolder, config.cookiesDir,
@@ -188,17 +223,25 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
 
   const audioFmt = cfg.audioFormat || 'mp3';
 
+  // Output template
+  const tpl = {
+    clean: '%(title)s.%(ext)s',
+    withUploader: '%(uploader)s - %(title)s.%(ext)s',
+    withDate: '%(upload_date>%Y-%m-%d)s - %(title)s.%(ext)s',
+    numbered: '%(playlist_index)03d - %(title)s.%(ext)s',
+  }[cfg.outputTemplate] || cfg.outputTemplate || '%(title)s.%(ext)s';
+
   switch (mode) {
     case 'Audio':
       return { args: [...base, ...adv, '-x', '--audio-format', audioFmt, '--audio-quality', '0',
-        '-o', path.join(config.audioFolder, '%(title)s.%(ext)s'),
+        '-o', path.join(config.audioFolder, tpl),
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_audio.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
         folder: config.audioFolder,
         failedLog: path.join(config.logsFailedDir, 'failed_audio.txt') };
 
     case 'Video':
-      return { args: [...base, ...adv, '-o', path.join(config.videoFolder, '%(title)s.%(ext)s'),
+      return { args: [...base, ...adv, '-o', path.join(config.videoFolder, tpl),
         '-f', 'bestvideo+bestaudio/best', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_video.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
@@ -206,7 +249,7 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
         failedLog: path.join(config.logsFailedDir, 'failed_video.txt') };
 
     case '4K':
-      return { args: [...base, ...adv, '-o', path.join(config.fourKFolder, '%(title)s.%(ext)s'),
+      return { args: [...base, ...adv, '-o', path.join(config.fourKFolder, tpl),
         '-f', 'bestvideo[height<=2160]+bestaudio/best[height<=2160]', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_4k.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
@@ -376,6 +419,48 @@ wss.on('connection', (ws) => {
         proc.stdout.on('data', d => ws.send(JSON.stringify({ type: 'toast', level: 'info', text: d.toString().trim() })));
         proc.stderr.on('data', d => ws.send(JSON.stringify({ type: 'toast', level: 'warning', text: d.toString().trim() })));
         proc.on('close', () => ws.send(JSON.stringify({ type: 'toast', level: 'success', text: 'yt-dlp update complete!' })));
+        break;
+      }
+
+      case 'listFormats': {
+        const config = loadConfig();
+        const ytdlp = config.ytdlpPath || 'yt-dlp';
+        const cookie = resolveCookie(config, msg.url);
+        const proc = spawn(ytdlp, [...cookie, '-F', msg.url], { shell: false });
+        let out = '';
+        proc.stdout.on('data', d => { out += d.toString(); });
+        proc.stderr.on('data', d => { out += d.toString(); });
+        proc.on('close', () => ws.send(JSON.stringify({ type: 'formatList', url: msg.url, data: out })));
+        break;
+      }
+
+      case 'saveProfile': {
+        const profiles = loadProfiles();
+        profiles[msg.name] = msg.data;
+        saveProfiles(profiles);
+        ws.send(JSON.stringify({ type: 'profiles', data: profiles }));
+        ws.send(JSON.stringify({ type: 'toast', level: 'success', text: `Profile "${msg.name}" saved!` }));
+        break;
+      }
+
+      case 'loadProfile': {
+        const profiles = loadProfiles();
+        const p = profiles[msg.name];
+        if (p) ws.send(JSON.stringify({ type: 'applyProfile', data: p }));
+        break;
+      }
+
+      case 'deleteProfile': {
+        const profiles = loadProfiles();
+        delete profiles[msg.name];
+        saveProfiles(profiles);
+        ws.send(JSON.stringify({ type: 'profiles', data: profiles }));
+        ws.send(JSON.stringify({ type: 'toast', level: 'info', text: `Profile "${msg.name}" deleted` }));
+        break;
+      }
+
+      case 'getProfiles': {
+        ws.send(JSON.stringify({ type: 'profiles', data: loadProfiles() }));
         break;
       }
     }

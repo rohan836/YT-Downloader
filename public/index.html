@@ -109,10 +109,27 @@
   <!-- URL Input -->
   <div class="url-section">
     <p class="section-label">Paste URL</p>
-    <div class="url-box">
+    <div class="url-box" id="urlBox">
       <span class="url-platform" id="urlPlatform">🔗</span>
       <input type="url" id="urlInput" placeholder="Paste YouTube, Instagram, TikTok, Vimeo, Twitch… URL" autocomplete="off" spellcheck="false"/>
       <button class="url-clear" id="urlClearBtn" title="Clear">✕</button>
+    </div>
+    <div class="url-actions">
+      <button class="btn btn-sm" id="toggleQueueBtn" title="Paste multiple URLs">📋 Queue</button>
+      <button class="btn btn-sm" id="listFormatsBtn" title="Show available formats">🎞️ List Formats</button>
+    </div>
+    <textarea id="queueInput" class="queue-textarea" style="display:none" rows="5" placeholder="Paste multiple URLs here, one per line…"></textarea>
+    <div class="drop-overlay" id="dropOverlay">📥 Drop URL or text file here</div>
+  </div>
+
+  <!-- Format List Modal -->
+  <div class="modal-overlay" id="formatModalOverlay" style="display:none">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>🎞️ Available Formats</h3>
+        <button class="btn btn-icon btn-sm" id="closeFormatModal">✕</button>
+      </div>
+      <pre class="modal-pre" id="formatListContent">Loading…</pre>
     </div>
   </div>
 
@@ -245,6 +262,36 @@
         <input class="drawer-input" id="rateLimit" type="text" placeholder="e.g. 10M or 500K"/>
         <p class="adv-hint">Cap bandwidth (empty = unlimited)</p>
       </div>
+
+      <!-- Output Template -->
+      <div class="card adv-card">
+        <h3>📄 Filename Template</h3>
+        <select class="drawer-input" id="outputTemplate">
+          <option value="clean">Clean (Title only)</option>
+          <option value="withUploader">Uploader - Title</option>
+          <option value="withDate">Date - Title</option>
+          <option value="numbered">001 - Title (Playlists)</option>
+        </select>
+      </div>
+
+      <!-- Format Sort -->
+      <div class="card adv-card">
+        <h3>📊 Quality Priority</h3>
+        <select class="drawer-input" id="formatSort">
+          <option value="">Default (Best)</option>
+          <option value="filesize">Smallest File</option>
+          <option value="res,fps,codec">Best Quality</option>
+          <option value="aext:m4a,abr">Best Audio</option>
+        </select>
+        <p class="adv-hint">How to choose when multiple formats exist</p>
+      </div>
+
+      <!-- Download Sections (Clip) -->
+      <div class="card adv-card">
+        <h3>✂️ Clip Section</h3>
+        <input class="drawer-input" id="downloadSections" type="text" placeholder="e.g. *1:30-3:45"/>
+        <p class="adv-hint">Download only a time range from video</p>
+      </div>
     </div>
 
     <!-- Toggle Switches Row -->
@@ -279,12 +326,37 @@
         <span class="toggle-slider"></span>
         <span>🔤 ASCII-only Filenames</span>
       </label>
+      <label class="toggle-item">
+        <input type="checkbox" id="splitChapters"/>
+        <span class="toggle-slider"></span>
+        <span>📑 Split by Chapters</span>
+      </label>
     </div>
 
     <!-- Subtitle language (shown when subtitles enabled) -->
     <div id="subtitleLangsRow" class="adv-sub-row" style="display:none">
       <label>Subtitle Languages</label>
       <input class="drawer-input" id="subtitleLangs" type="text" placeholder="en,hi,ar or all" value="en"/>
+    </div>
+
+    <!-- Date / Duration Filters -->
+    <div class="adv-grid" style="margin-top:12px">
+      <div class="card adv-card">
+        <h3>📅 Date Filter</h3>
+        <div style="display:flex;gap:8px">
+          <input class="drawer-input" id="dateAfter" type="text" placeholder="After (YYYYMMDD)" style="flex:1"/>
+          <input class="drawer-input" id="dateBefore" type="text" placeholder="Before (YYYYMMDD)" style="flex:1"/>
+        </div>
+        <p class="adv-hint">Filter videos by upload date</p>
+      </div>
+      <div class="card adv-card">
+        <h3>⏱️ Duration Filter</h3>
+        <div style="display:flex;gap:8px">
+          <input class="drawer-input" id="minDuration" type="number" placeholder="Min (sec)" style="flex:1"/>
+          <input class="drawer-input" id="maxDuration" type="number" placeholder="Max (sec)" style="flex:1"/>
+        </div>
+        <p class="adv-hint">Skip shorts or very long videos</p>
+      </div>
     </div>
 
     <!-- Proxy & Impersonation -->
@@ -303,6 +375,19 @@
           <option value="safari">Safari</option>
         </select>
         <p class="adv-hint">Bypass anti-bot protections</p>
+      </div>
+    </div>
+
+    <!-- Config Profiles -->
+    <div class="profiles-bar" style="margin-top:14px;padding:0 18px 14px">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:.78rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em">💾 Profiles</span>
+        <select class="drawer-input" id="profileSelect" style="flex:1;max-width:180px;padding:6px 10px;font-size:.8rem">
+          <option value="">— Select profile —</option>
+        </select>
+        <button class="btn btn-sm" id="loadProfileBtn">Load</button>
+        <button class="btn btn-sm" id="saveProfileBtn">Save As…</button>
+        <button class="btn btn-sm btn-danger" id="deleteProfileBtn">✕</button>
       </div>
     </div>
   </details>

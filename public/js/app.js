@@ -32,6 +32,9 @@ function handleMsg(msg) {
     case 'log':           onLog(msg);            break;
     case 'errLine':       onErrLine(msg);        break;
     case 'skipped':       onSkipped(msg);        break;
+    case 'formatList':    el('formatListContent').textContent = msg.data || 'No formats found.'; break;
+    case 'profiles':      renderProfileSelect(msg.data); break;
+    case 'applyProfile':  applyProfileOverrides(msg.data); break;
   }
 }
 
@@ -67,7 +70,18 @@ function applyConfig(cfg) {
   el('rateLimit').value            = cfg.rateLimit     || '';
   el('proxy').value                = cfg.proxy         || '';
   el('impersonate').value          = cfg.impersonate   || '';
+  el('outputTemplate').value       = cfg.outputTemplate || 'clean';
+  el('formatSort').value           = cfg.formatSort    || '';
+  el('splitChapters').checked      = !!cfg.splitChapters;
+  el('dateAfter').value            = cfg.dateAfter     || '';
+  el('dateBefore').value           = cfg.dateBefore    || '';
+  el('minDuration').value          = cfg.minDuration   || '';
+  el('maxDuration').value          = cfg.maxDuration   || '';
+  el('downloadSections').value     = cfg.downloadSections || '';
   updateSubtitleRow();
+
+  // Request profiles
+  send({ type: 'getProfiles' });
 
   // Speed
   const speedMap = { Fast: 'speedFast', Medium: 'speedMedium', Slow: 'speedSlow' };
@@ -177,27 +191,34 @@ function getAdvancedOverrides() {
     rateLimit:           el('rateLimit').value.trim(),
     proxy:               el('proxy').value.trim(),
     impersonate:         el('impersonate').value,
+    outputTemplate:      el('outputTemplate').value,
+    formatSort:          el('formatSort').value,
+    splitChapters:       el('splitChapters').checked,
+    dateAfter:           el('dateAfter').value.trim(),
+    dateBefore:          el('dateBefore').value.trim(),
+    minDuration:         el('minDuration').value.trim(),
+    maxDuration:         el('maxDuration').value.trim(),
+    downloadSections:    el('downloadSections').value.trim(),
   };
 }
 
-// ── Start / Cancel ─────────────────────────────────────────────────────────
+// ── Start / Cancel / Queue ─────────────────────────────────────────────────
 let currentDownloadId = null;
 let isRunning = false;
+let downloadQueue = [];
+let queueMode = false;
 
-el('startBtn').addEventListener('click', () => {
-  if (isRunning) {
-    // Cancel
-    if (currentDownloadId) send({ type: 'cancelDownload', downloadId: currentDownloadId });
-    return;
-  }
+// Toggle queue textarea
+el('toggleQueueBtn').addEventListener('click', () => {
+  queueMode = !queueMode;
+  el('queueInput').style.display = queueMode ? '' : 'none';
+  el('toggleQueueBtn').textContent = queueMode ? '📋 Single URL' : '📋 Queue';
+});
 
-  const url = el('urlInput').value.trim();
-  if (!url) { showToast('Please paste a URL first!', 'warning'); return; }
-
+function startSingleDownload(url) {
   const speed = document.querySelector('input[name=speed]:checked')?.value || 'Medium';
   const cookieMode = document.querySelector('input[name=cookie]:checked')?.value || 'Auto';
 
-  // If cookie mode changed from config, save inline
   if (cookieMode !== config.cookieMode ||
       el('browserNameInput').value !== config.browserName ||
       el('manualCookieInput').value !== config.manualCookie) {
@@ -215,6 +236,32 @@ el('startBtn').addEventListener('click', () => {
   el('progressSection').style.display = '';
 
   send({ type: 'startDownload', url, mode: selectedMode, speed, downloadId: currentDownloadId, overrides: getAdvancedOverrides() });
+}
+
+el('startBtn').addEventListener('click', () => {
+  if (isRunning) {
+    if (currentDownloadId) send({ type: 'cancelDownload', downloadId: currentDownloadId });
+    downloadQueue = [];
+    return;
+  }
+
+  let urls = [];
+  if (queueMode) {
+    urls = el('queueInput').value.split('\n').map(u => u.trim()).filter(u => u && u.startsWith('http'));
+  } else {
+    const u = el('urlInput').value.trim();
+    if (u) urls.push(u);
+  }
+
+  if (urls.length === 0) { showToast('Please paste a URL first!', 'warning'); return; }
+
+  if (urls.length === 1) {
+    startSingleDownload(urls[0]);
+  } else {
+    downloadQueue = urls.slice(1);
+    showToast(`Queue: ${urls.length} URLs. Starting first…`, 'info');
+    startSingleDownload(urls[0]);
+  }
 });
 
 // ── Progress Items ─────────────────────────────────────────────────────────
@@ -294,6 +341,7 @@ function onDownloadEnd({ downloadId, code, status }) {
     statusEl.className = 'pi-status done';
     if (barEl) barEl.style.width = '100%';
     showToast('Download complete! 🎉', 'success');
+    notifyDesktop('Download complete! 🎉');
   } else if (status === 'cancelled') {
     statusEl.textContent = 'Cancelled';
     statusEl.className = 'pi-status cancelled';
@@ -302,6 +350,21 @@ function onDownloadEnd({ downloadId, code, status }) {
     statusEl.textContent = '✗ Error';
     statusEl.className = 'pi-status error';
     showToast('Download ended with errors. Check the log.', 'error');
+  }
+
+  // Process next in queue
+  if (downloadQueue.length > 0) {
+    const nextUrl = downloadQueue.shift();
+    showToast(`Queue: ${downloadQueue.length + 1} remaining. Next…`, 'info');
+    setTimeout(() => startSingleDownload(nextUrl), 1000);
+  } else if (status === 'done') {
+    notifyDesktop('All downloads complete! 🎉');
+  }
+}
+
+function notifyDesktop(msg) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('YT-Downloader', { body: msg, icon: '⬇' });
   }
 }
 
@@ -424,3 +487,106 @@ function formatDate(iso) {
 
 // ── Init ───────────────────────────────────────────────────────────────────
 connectWS();
+
+// Request desktop notification permission
+if ('Notification' in window && Notification.permission === 'default') {
+  Notification.requestPermission();
+}
+
+// ── Drag & Drop ──────────────────────────────────────────────────────────
+{
+  const sec = document.querySelector('.url-section');
+  ['dragenter','dragover'].forEach(e => sec.addEventListener(e, (ev) => { ev.preventDefault(); sec.classList.add('drag-over'); }));
+  ['dragleave','drop'].forEach(e => sec.addEventListener(e, () => sec.classList.remove('drag-over')));
+  sec.addEventListener('drop', (ev) => {
+    ev.preventDefault();
+    const text = ev.dataTransfer.getData('text/plain') || '';
+    if (text) {
+      el('urlInput').value = text.trim();
+      const p = detectPlatform(text.trim());
+      el('urlPlatform').textContent = p ? p.icon : '🔗';
+      showToast('URL dropped!', 'success');
+    }
+    const file = ev.dataTransfer.files?.[0];
+    if (file && file.name.endsWith('.txt')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        el('queueInput').value = reader.result;
+        el('queueInput').style.display = '';
+        queueMode = true;
+        el('toggleQueueBtn').textContent = '📋 Single URL';
+        showToast(`Loaded ${reader.result.split('\n').filter(l=>l.trim()).length} URLs from file`, 'success');
+      };
+      reader.readAsText(file);
+    }
+  });
+}
+
+// ── List Formats ──────────────────────────────────────────────────────────
+el('listFormatsBtn').addEventListener('click', () => {
+  const url = el('urlInput').value.trim();
+  if (!url) { showToast('Paste a URL first', 'warning'); return; }
+  el('formatListContent').textContent = 'Loading formats…';
+  el('formatModalOverlay').style.display = '';
+  send({ type: 'listFormats', url });
+});
+el('closeFormatModal').addEventListener('click', () => { el('formatModalOverlay').style.display = 'none'; });
+el('formatModalOverlay').addEventListener('click', (e) => {
+  if (e.target === el('formatModalOverlay')) el('formatModalOverlay').style.display = 'none';
+});
+
+// ── Config Profiles ──────────────────────────────────────────────────────
+let profilesCache = {};
+
+function renderProfileSelect(profiles) {
+  profilesCache = profiles || {};
+  const sel = el('profileSelect');
+  sel.innerHTML = '<option value="">— Select profile —</option>';
+  Object.keys(profilesCache).forEach(name => {
+    sel.innerHTML += `<option value="${escHtml(name)}">${escHtml(name)}</option>`;
+  });
+}
+
+el('saveProfileBtn').addEventListener('click', () => {
+  const name = prompt('Profile name:');
+  if (!name) return;
+  send({ type: 'saveProfile', name, data: getAdvancedOverrides() });
+});
+
+el('loadProfileBtn').addEventListener('click', () => {
+  const name = el('profileSelect').value;
+  if (!name) { showToast('Select a profile first', 'warning'); return; }
+  send({ type: 'loadProfile', name });
+});
+
+el('deleteProfileBtn').addEventListener('click', () => {
+  const name = el('profileSelect').value;
+  if (!name) return;
+  send({ type: 'deleteProfile', name });
+});
+
+function applyProfileOverrides(data) {
+  if (data.audioFormat) el('audioFormat').value = data.audioFormat;
+  if (data.concurrentFragments) { el('concurrentFragments').value = data.concurrentFragments; el('concurrentFragmentsVal').textContent = data.concurrentFragments; }
+  if (data.sponsorBlock !== undefined) el('sponsorBlock').checked = data.sponsorBlock;
+  if (data.subtitles !== undefined) el('subtitles').checked = data.subtitles;
+  if (data.subtitleLangs) el('subtitleLangs').value = data.subtitleLangs;
+  if (data.embedSubs !== undefined) el('embedSubs').checked = data.embedSubs;
+  if (data.embedChapters !== undefined) el('embedChapters').checked = data.embedChapters;
+  if (data.writeThumbnail !== undefined) el('writeThumbnail').checked = data.writeThumbnail;
+  if (data.restrictFilenames !== undefined) el('restrictFilenames').checked = data.restrictFilenames;
+  if (data.playlistRange !== undefined) el('playlistRange').value = data.playlistRange;
+  if (data.rateLimit !== undefined) el('rateLimit').value = data.rateLimit;
+  if (data.proxy !== undefined) el('proxy').value = data.proxy;
+  if (data.impersonate !== undefined) el('impersonate').value = data.impersonate;
+  if (data.outputTemplate) el('outputTemplate').value = data.outputTemplate;
+  if (data.formatSort !== undefined) el('formatSort').value = data.formatSort;
+  if (data.splitChapters !== undefined) el('splitChapters').checked = data.splitChapters;
+  if (data.dateAfter !== undefined) el('dateAfter').value = data.dateAfter;
+  if (data.dateBefore !== undefined) el('dateBefore').value = data.dateBefore;
+  if (data.minDuration !== undefined) el('minDuration').value = data.minDuration;
+  if (data.maxDuration !== undefined) el('maxDuration').value = data.maxDuration;
+  if (data.downloadSections !== undefined) el('downloadSections').value = data.downloadSections;
+  updateSubtitleRow();
+  showToast('Profile loaded!', 'success');
+}

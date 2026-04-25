@@ -397,3 +397,61 @@ select.drawer-input {
   background-repeat: no-repeat; background-position: right 12px center;
   padding-right: 32px; cursor: pointer;
 }
+
+/* ── URL Actions ────────────────────────────────────────────────────────── */
+.url-actions {
+  display: flex; gap: 8px; margin-top: 8px;
+}
+
+/* ── Queue Textarea ─────────────────────────────────────────────────────── */
+.queue-textarea {
+  width: 100%; margin-top: 10px;
+  padding: 12px 14px; border-radius: var(--radius);
+  border: 1.5px solid var(--card-border); background: var(--card);
+  color: var(--text); font: .875rem 'Inter', monospace;
+  outline: none; resize: vertical; backdrop-filter: blur(10px);
+  transition: border-color var(--transition);
+}
+.queue-textarea:focus { border-color: var(--accent); }
+
+/* ── Drag & Drop Overlay ────────────────────────────────────────────────── */
+.url-section { position: relative; }
+.drop-overlay {
+  display: none; position: absolute; inset: 0; z-index: 10;
+  background: rgba(124,58,237,.15); backdrop-filter: blur(4px);
+  border: 2.5px dashed var(--accent); border-radius: var(--radius);
+  color: var(--accent); font-size: 1.1rem; font-weight: 700;
+  place-items: center; justify-content: center; align-items: center;
+  text-align: center; padding: 40px;
+}
+.url-section.drag-over .drop-overlay { display: flex; }
+
+/* ── Format List Modal ──────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-box {
+  background: var(--bg2); border: 1px solid var(--card-border);
+  border-radius: var(--radius); max-width: 700px; width: 90%;
+  max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow);
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--card-border);
+  position: sticky; top: 0; background: var(--bg2); z-index: 1;
+}
+.modal-header h3 { font-size: 1rem; font-weight: 700; }
+.modal-pre {
+  padding: 16px 20px; font-size: .78rem; line-height: 1.5;
+  color: var(--text2); white-space: pre-wrap; word-break: break-all;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+/* ── Queue badge on start button ────────────────────────────────────────── */
+.queue-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.2); border-radius: 99px;
+  padding: 1px 8px; font-size: .75rem; margin-left: 6px;
+}
