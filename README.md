@@ -75,8 +75,8 @@ All downloads are organized on your D: drive:
 
 ```
 D:\YT-Downloads\
-├── Audio\           ← MP3 / AAC / FLAC downloads
-├── Video\           ← 1080p video downloads
+├── New Audio\       ← MP3 / AAC / FLAC downloads
+├── New Video\       ← 1080p video downloads
 ├── 4K\              ← 4K video downloads
 ├── Lists\           ← Playlist text lists
 ├── Backups\         ← JSON playlist backups
@@ -95,7 +95,7 @@ D:\YT-Downloads\
 1. **Open the App:** Double-click `Start.bat`
 2. **Ready:** Browser opens at `http://localhost:3131`
 3. **Paste a URL** into the top text box
-4. **Pick a mode** (Audio, Video, 4K, etc.)
+4. **Pick a mode** (Audio, Video, Both, etc.)
 5. **Hit Start Download** — watch the real-time progress!
 
 ---
@@ -115,11 +115,12 @@ This is where the magic starts. Just copy the link of the video or playlist from
 
 ### 2. Download Mode
 Choose what you want to extract from the link:
-- 🎵 **MP3 Audio:** Extracts the sound and saves it as an MP3 (or your chosen format). Perfect for music!
-- 🎬 **1080p Video:** Downloads the video up to 1080p resolution (Standard High Definition).
+- 🎵 **MP3 Audio:** Extracts the sound and saves it as an MP3.
+- 🎬 **1080p Video:** Downloads the video up to 1080p resolution.
+- 🎵🎬 **Both (MP3+MP4):** Downloads BOTH high-quality audio and video with one click.
 - 🎥 **4K Video:** Grabs the absolute highest quality video available, up to 4K resolution.
-- 📋 **List (Audio) / List (Video):** Doesn't download the media. Instead, it creates a text file listing all the titles in a playlist.
-- 💾 **JSON Backup:** Downloads all the metadata (titles, descriptions, upload dates) of a video or playlist and saves it as a JSON file for archival.
+- 📋 **List (Audio) / List (Video):** Creates a text file listing all titles in a playlist.
+- 💾 **JSON Backup:** Downloads all metadata as a JSON file for archival.
 
 ### 3. Speed & Cookies
 - **Speed:** 
