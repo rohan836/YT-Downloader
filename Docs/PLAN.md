@@ -2,6 +2,8 @@
 
 > **YOU (the AI) MUST read this file first before doing ANY work in this workspace.**
 > This file explains everything about the user's setup so you can help immediately.
+> 
+> 🚨 **CRITICAL RULE: NEVER change ANYTHING without the user's explicit permission. This includes modifying files, changing folder structures, or altering the text and rules within this PLAN.md file itself. Always ask first.**
 
 ---
 
