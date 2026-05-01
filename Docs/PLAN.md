@@ -135,6 +135,7 @@ Push to whichever one changed. If both changed, push both.
 - [ ] Regenerate `My Old Songs\Docs\VIDEO_SONGS.txt` and `AUDIO_SONGS.txt`
 - [ ] Update `My Old Songs\Docs\SONGS.csv`
 - [ ] Update THIS file (`App\Docs\PLAN.md`) → The folder map counts at the top
+- [ ] Update `App\Docs\SESSION_LOG.md` and `CHANGELOG.md` with what you did
 - [ ] Push BOTH `My Old Songs` repo AND `App` repo to GitHub
 
 ### If you changed the app:
