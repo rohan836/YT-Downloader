@@ -214,13 +214,6 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
   // Download sections (clip)
   if (cfg.downloadSections) adv.push('--download-sections', cfg.downloadSections);
 
-  // Ensure all directories exist
-  [config.audioFolder, config.videoFolder, config.fourKFolder,
-   config.listsFolder, config.backupsFolder, config.cookiesDir,
-   config.logsFailedDir, config.logsDuplicatesDir].forEach(d => {
-    if (d) fs.mkdirSync(d, { recursive: true });
-  });
-
   const audioFmt = cfg.audioFormat || 'mp3';
 
   // Output template
@@ -231,44 +224,60 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
     numbered: '%(playlist_index)03d - %(title)s.%(ext)s',
   }[cfg.outputTemplate] || cfg.outputTemplate || '%(title)s.%(ext)s';
 
+  let result = null;
+
   switch (mode) {
     case 'Audio':
-      return { args: [...base, ...adv, '-x', '--audio-format', audioFmt, '--audio-quality', '0',
+      result = { args: [...base, ...adv, '-x', '--audio-format', audioFmt, '--audio-quality', '0',
         '-o', path.join(config.audioFolder, tpl),
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_audio.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
         folder: config.audioFolder,
         failedLog: path.join(config.logsFailedDir, 'failed_audio.txt') };
+      break;
 
     case 'Video':
-      return { args: [...base, ...adv, '-o', path.join(config.videoFolder, tpl),
+      result = { args: [...base, ...adv, '-o', path.join(config.videoFolder, tpl),
         '-f', 'bestvideo+bestaudio/best', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_video.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
         folder: config.videoFolder,
         failedLog: path.join(config.logsFailedDir, 'failed_video.txt') };
+      break;
 
     case '4K':
-      return { args: [...base, ...adv, '-o', path.join(config.fourKFolder, tpl),
+      result = { args: [...base, ...adv, '-o', path.join(config.fourKFolder, tpl),
         '-f', 'bestvideo[height<=2160]+bestaudio/best[height<=2160]', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_4k.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
         folder: config.fourKFolder,
         failedLog: path.join(config.logsFailedDir, 'failed_4k.txt') };
+      break;
 
     case 'ListAudio':
     case 'ListVideo':
-      return { args: ['--skip-download', '--flat-playlist', '--print', '%(playlist_index)03d - %(title)s', url],
+      result = { args: ['--skip-download', '--flat-playlist', '--print', '%(playlist_index)03d - %(title)s', url],
         folder: config.listsFolder, listFile: path.join(config.listsFolder, `list_${Date.now()}.txt`) };
+      break;
 
     case 'BackupAudio':
     case 'BackupVideo':
-      return { args: ['--flat-playlist', '--dump-json', url],
+      result = { args: ['--flat-playlist', '--dump-json', url],
         folder: config.backupsFolder, backupFile: path.join(config.backupsFolder, `backup_${Date.now()}.json`) };
+      break;
 
     default:
       return null;
   }
+
+  // Only create folders that are actually needed for this download
+  if (result.folder) fs.mkdirSync(result.folder, { recursive: true });
+  if (result.failedLog) fs.mkdirSync(path.dirname(result.failedLog), { recursive: true });
+  if (result.args.includes('--download-archive')) {
+    fs.mkdirSync(config.logsDuplicatesDir, { recursive: true });
+  }
+
+  return result;
 }
 
 // ── Active Downloads Map ───────────────────────────────────────────────────
