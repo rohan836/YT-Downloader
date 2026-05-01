@@ -1,0 +1,8 @@
+# Songs to download later
+# Paste YouTube URLs below, one per line
+# When ready, tell the AI: "download my wishlist"
+#
+# Format:
+# https://youtube.com/watch?v=XXXXX    # Song Name (optional note)
+#
+
