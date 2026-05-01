@@ -238,4 +238,24 @@ node server.js
 
 ---
 
+## ⚠️ MANDATORY: After EVERY Task
+
+**After finishing ANY work on this app, you MUST do these. No exceptions.**
+
+1. **Test the change** — restart server, open browser, verify it works
+2. **Update this PLAN.md** if you changed:
+   - Features → update the feature list (add new ones, update count)
+   - Code structure → update the "Important Code Locations" line numbers
+   - Folder paths → update the "Download Folders" table
+   - Architecture → update the architecture diagram
+   - Dependencies → update the system dependencies table
+3. **Update `GUIDE.md`** if you added a user-facing feature
+4. **Push to GitHub** — `git add . && git commit -m "description" && git push`
+
+### Why this matters:
+This PLAN.md is the **single source of truth**. The next AI reads it to understand the app. If you add a feature but don't document it, the next AI won't know it exists. If you change folder paths but don't update them here, the next AI will use wrong paths and **break things**. Keep it accurate.
+
+---
+
 *Last updated: 2026-05-01*
+
