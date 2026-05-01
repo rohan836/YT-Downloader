@@ -215,7 +215,7 @@ el('toggleQueueBtn').addEventListener('click', () => {
   el('toggleQueueBtn').textContent = queueMode ? '📋 Single URL' : '📋 Queue';
 });
 
-function startSingleDownload(url) {
+function startSingleDownload(url, modeOverride) {
   const speed = document.querySelector('input[name=speed]:checked')?.value || 'Medium';
   const cookieMode = document.querySelector('input[name=cookie]:checked')?.value || 'Auto';
 
@@ -229,13 +229,14 @@ function startSingleDownload(url) {
     }});
   }
 
+  const actualMode = modeOverride || selectedMode;
   currentDownloadId = 'dl_' + Date.now();
   isRunning = true;
   el('startBtn').textContent = '⏹ Cancel Download';
   el('startBtn').classList.add('running');
   el('progressSection').style.display = '';
 
-  send({ type: 'startDownload', url, mode: selectedMode, speed, downloadId: currentDownloadId, overrides: getAdvancedOverrides() });
+  send({ type: 'startDownload', url, mode: actualMode, speed, downloadId: currentDownloadId, overrides: getAdvancedOverrides() });
 }
 
 el('startBtn').addEventListener('click', () => {
@@ -255,10 +256,23 @@ el('startBtn').addEventListener('click', () => {
 
   if (urls.length === 0) { showToast('Please paste a URL first!', 'warning'); return; }
 
+  // "Both" mode: expand each URL into two downloads (Audio + Video)
+  if (selectedMode === 'Both') {
+    const expanded = [];
+    urls.forEach(u => {
+      expanded.push({ url: u, mode: 'Audio' });
+      expanded.push({ url: u, mode: 'Video' });
+    });
+    downloadQueue = expanded.slice(1);
+    showToast(`Both mode: ${urls.length} URL(s) → ${expanded.length} downloads (Audio + Video)`, 'info');
+    startSingleDownload(expanded[0].url, expanded[0].mode);
+    return;
+  }
+
   if (urls.length === 1) {
     startSingleDownload(urls[0]);
   } else {
-    downloadQueue = urls.slice(1);
+    downloadQueue = urls.slice(1).map(u => ({ url: u }));
     showToast(`Queue: ${urls.length} URLs. Starting first…`, 'info');
     startSingleDownload(urls[0]);
   }
@@ -354,9 +368,11 @@ function onDownloadEnd({ downloadId, code, status }) {
 
   // Process next in queue
   if (downloadQueue.length > 0) {
-    const nextUrl = downloadQueue.shift();
+    const next = downloadQueue.shift();
+    const nextUrl = typeof next === 'string' ? next : next.url;
+    const nextMode = typeof next === 'object' && next.mode ? next.mode : undefined;
     showToast(`Queue: ${downloadQueue.length + 1} remaining. Next…`, 'info');
-    setTimeout(() => startSingleDownload(nextUrl), 1000);
+    setTimeout(() => startSingleDownload(nextUrl, nextMode), 1000);
   } else if (status === 'done') {
     notifyDesktop('All downloads complete! 🎉');
   }
@@ -369,7 +385,7 @@ function notifyDesktop(msg) {
 }
 
 // ── History ────────────────────────────────────────────────────────────────
-const MODE_ICONS = { Audio:'🎵', Video:'🎬', '4K':'🎥', ListAudio:'📋', ListVideo:'📝', BackupAudio:'💾', BackupVideo:'💾' };
+const MODE_ICONS = { Audio:'🎵', Video:'🎬', Both:'🎵🎬', '4K':'🎥', ListAudio:'📋', ListVideo:'📝', BackupAudio:'💾', BackupVideo:'💾' };
 
 function renderHistory(data) {
   const list = el('historyList');
