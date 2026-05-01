@@ -5,24 +5,25 @@
 
 ---
 
-## Last Session: 2026-05-01 05:00–06:30 IST
+## Last Session: 2026-05-01 (Current)
 
 **What was done:**
-- Verified all 24 downloaded songs (MP3 + MP4) — no .webp files
-- Moved `my old songs` collection to `D:\YT-Downloads\My Old Songs`
-- Renamed folders: Vid → Video (Main), Music → Audio (Main)
-- Cleaned and numbered 24 new songs (423–446), moved to Main
-- Created three PLAN.md files (master, app, songs) — written for any AI
-- Added mandatory after-task checklists to all plans
-- Pushed both repos to GitHub
-- Set up CHANGELOG.md, WISHLIST.txt, SESSION_LOG.md, .gitignore fix
+- Fixed the YT-Downloader app's folder creation bug (it was making empty `Audio` and `Video` folders).
+- Added a new **"Both (MP3+MP4)"** download mode to the app interface and queue logic.
+- Deleted all old duplicate folders (`Audio` and `Video`) from the root.
+- Fixed the song collection by filling the missing gaps for "Yaadon Ki Baarat Nikli Hai" and deleting the duplicate #422.
+- Cleaned, numbered, and added 7 new songs (originally 447-451, plus 2 new ones).
+- Swapped song #5 and #447 per user request.
+- **Renumbered the entire collection** (shifted everything from 423-451 down by 1) to perfectly close the gap at #422.
+- Added strict `CRITICAL RULE` to the top of all `PLAN.md` files: *NEVER change anything without user permission.*
+- Expanded the mandatory "After EVERY Task" checklists in the Master PLAN.md and Collection PLAN.md.
+- Created `README.md` for the `My Old Songs` repo and updated `App\README.md`.
+- Consolidated all documentation into `App\Docs` so it tracks on GitHub.
 
 **Current state:**
-- Songs: 445 total (1–446), next = 447
-- App: running on localhost:3131, 36 features
-- Download folders: empty (all moved to Main)
-- Both repos: clean, pushed
+- **Songs:** 452 total. Numbered exactly 1–452. NO GAPS.
+- **App:** "Both" mode implemented. Folders default to `New Audio` / `New Video`.
+- **Root folders:** Perfectly clean. Old stray folders destroyed.
+- **GitHub:** Both `YT-Downloader` and `my-old-songs` repos are 100% updated and in sync.
 
 **Nothing left pending.**
-
----
