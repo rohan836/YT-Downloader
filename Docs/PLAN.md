@@ -130,10 +130,12 @@ Push to whichever one changed. If both changed, push both.
 **You MUST do ALL of these after completing ANY task. No exceptions.**
 
 ### If you changed song files:
-- [ ] Update `My Old Songs\PLAN.md` → "Current State" table (total count, next number, missing numbers)
-- [ ] Regenerate `VIDEO_SONGS.txt` and `AUDIO_SONGS.txt`
-- [ ] Update `SONGS.csv` if new songs were added
-- [ ] Push `My Old Songs` repo to GitHub
+- [ ] Update `My Old Songs\Docs\PLAN.md` → "Current State" table (total count, next number, missing numbers)
+- [ ] Update `My Old Songs\README.md` → Total songs and numbering range
+- [ ] Regenerate `My Old Songs\Docs\VIDEO_SONGS.txt` and `AUDIO_SONGS.txt`
+- [ ] Update `My Old Songs\Docs\SONGS.csv`
+- [ ] Update THIS file (`App\Docs\PLAN.md`) → The folder map counts at the top
+- [ ] Push BOTH `My Old Songs` repo AND `App` repo to GitHub
 
 ### If you changed the app:
 - [ ] Update `App\PLAN.md` → feature list, code line numbers, or architecture if changed
