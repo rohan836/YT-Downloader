@@ -34,8 +34,8 @@ const HISTORY_FILE = path.join(__dirname, 'history.json');
 
 // ── Default Config ─────────────────────────────────────────────────────────
 const DEFAULT_CONFIG = {
-  audioFolder: 'D:\\YT-Downloads\\Audio',
-  videoFolder: 'D:\\YT-Downloads\\Video',
+  audioFolder: 'D:\\YT-Downloads\\New Audio',
+  videoFolder: 'D:\\YT-Downloads\\New Video',
   fourKFolder: 'D:\\YT-Downloads\\4K',
   listsFolder: 'D:\\YT-Downloads\\Lists',
   backupsFolder: 'D:\\YT-Downloads\\Backups',
@@ -153,7 +153,7 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
     Slow: ['--sleep-interval', '25', '--max-sleep-interval', '55']
   }[speed] || [];
 
-  const base = [...cookieArgs, '--ignore-errors', '--lazy-playlist'];
+  const base = [...cookieArgs, '--ignore-errors', '--lazy-playlist', '--convert-thumbnails', 'jpg'];
 
   // ── Advanced flags ──
   const adv = [];
