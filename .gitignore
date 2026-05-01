@@ -1,5 +1,10 @@
+# Dependencies
 node_modules/
+
+# User data - contains personal paths and download history
 config.json
 history.json
+profiles.json
+
+# Logs
 *.log
-.env
