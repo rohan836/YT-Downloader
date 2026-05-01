@@ -436,6 +436,12 @@ el('saveSettingsBtn').addEventListener('click', () => {
   const theme = el('themeDark').checked ? 'dark' : 'light';
   const accent = el('accentColorPicker').value;
   const data = {
+    ytdlpPath:         el('cfgYtdlpPath').value.trim() || 'yt-dlp',
+    port:              parseInt(el('cfgPort').value) || 3131,
+    theme, accentColor: accent
+  };
+  // Only save folder paths if user actually typed something (don't override defaults with empty)
+  const folders = {
     audioFolder:       el('cfgAudioFolder').value.trim(),
     videoFolder:       el('cfgVideoFolder').value.trim(),
     fourKFolder:       el('cfgFourKFolder').value.trim(),
@@ -444,10 +450,8 @@ el('saveSettingsBtn').addEventListener('click', () => {
     cookiesDir:        el('cfgCookiesDir').value.trim(),
     logsFailedDir:     el('cfgLogsFailedDir').value.trim(),
     logsDuplicatesDir: el('cfgLogsDuplicatesDir').value.trim(),
-    ytdlpPath:         el('cfgYtdlpPath').value.trim() || 'yt-dlp',
-    port:              parseInt(el('cfgPort').value) || 3131,
-    theme, accentColor: accent
   };
+  Object.entries(folders).forEach(([k, v]) => { if (v) data[k] = v; });
   send({ type: 'saveConfig', data });
   applyTheme(theme);
   applyAccent(accent);
