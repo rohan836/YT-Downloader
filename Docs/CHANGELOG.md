@@ -14,11 +14,12 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Download Optimization**: Updated format preference to native MP4/M4A to prevent FFmpeg merge errors.
 
 ### Songs Collection
-- Added 3 new songs to the permanent collection:
+- Added 4 new songs to the permanent collection:
     - #454: Main Jahan Chala Jaoon (Banphool)
     - #455: Nazron Se Keh Do (Doosara Aadmi)
     - #456: Baaghon Mein Bahaar Aayee (Mome Ki Gudiya)
-- **Current Total: 456 songs (1-456, no gaps).**
+    - #457: Yeh Shama To Jali Roshni Ke Liye (Aya Sawan Jhoom Ke)
+- **Current Total: 457 songs (1-457, no gaps).**
 - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
 
 ---

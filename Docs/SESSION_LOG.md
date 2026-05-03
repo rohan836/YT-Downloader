@@ -16,15 +16,15 @@
     - Fixed the "double browser tab" issue on startup by removing duplicate `start` command in `Start.bat`.
     - Optimized download format to prefer native MP4/M4A for better merging.
 - **Collection Management**:
-    - Added **3 new songs** (#454 - #456).
+    - Added **4 new songs** (#454 - #457).
     - Renamed and moved files from `New Audio/Video` to `Main` folders.
     - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
 - **Infrastructure**:
-    - Updated all project documentation (PLAN.md, README.md, CHANGELOG.md) to reflect the new count of **456**.
+    - Updated all project documentation (PLAN.md, README.md, CHANGELOG.md) to reflect the new count of **457**.
     - Pushed all changes to both `YT-Downloader` and `my-old-songs` GitHub repositories.
 
 **Next Steps / Pending:**
-- Continue adding songs starting from **#457**.
+- Continue adding songs starting from **#458**.
 - Monitor for any further audio/video sync issues with the new trimming logic.
 - Consider adding a "Precise Cut" toggle if re-encoding speed becomes an issue for the user.
 
