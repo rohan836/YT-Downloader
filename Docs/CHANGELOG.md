@@ -4,6 +4,25 @@ All changes to the YT-Downloads workspace, logged by session.
 
 ---
 
+## 2026-05-04 (Session 3)
+
+### YT-Downloader App
+- **New Feature: Clip / Trim UI**: Added a visual time-range selector with a toggle switch in the "Advanced Options" panel.
+- **Bug Fix (Trimming Accuracy)**: Added `--force-keyframes-at-cuts` to ensure videos cut exactly at the specified start time.
+- **Bug Fix (Audio Truncation)**: Forced AAC re-encoding for clips to prevent audio cutting off early due to stream copy misalignment.
+- **Bug Fix (Duplicate Tabs)**: Removed redundant `start` command in `Start.bat` that caused the browser to open twice.
+- **Download Optimization**: Updated format preference to native MP4/M4A to prevent FFmpeg merge errors.
+
+### Songs Collection
+- Added 3 new songs to the permanent collection:
+    - #454: Main Jahan Chala Jaoon (Banphool)
+    - #455: Nazron Se Keh Do (Doosara Aadmi)
+    - #456: Baaghon Mein Bahaar Aayee (Mome Ki Gudiya)
+- **Current Total: 456 songs (1-456, no gaps).**
+- Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
+
+---
+
 ## 2026-05-01 (Session 2)
 
 ### Songs Collection

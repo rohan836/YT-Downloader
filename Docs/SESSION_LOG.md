@@ -5,25 +5,35 @@
 
 ---
 
-## Last Session: 2026-05-01 (Current)
+## Last Session: 2026-05-04 (Current)
 
 **What was done:**
-- Fixed the YT-Downloader app's folder creation bug (it was making empty `Audio` and `Video` folders).
-- Added a new **"Both (MP3+MP4)"** download mode to the app interface and queue logic.
-- Deleted all old duplicate folders (`Audio` and `Video`) from the root.
-- Fixed the song collection by filling the missing gaps for "Yaadon Ki Baarat Nikli Hai" and deleting the duplicate #422.
-- Cleaned, numbered, and added 7 new songs (originally 447-451, plus 2 new ones).
-- Swapped song #5 and #447 per user request.
-- **Renumbered the entire collection** (shifted everything from 423-451 down by 1) to perfectly close the gap at #422.
-- Added strict `CRITICAL RULE` to the top of all `PLAN.md` files: *NEVER change anything without user permission.*
-- Expanded the mandatory "After EVERY Task" checklists in the Master PLAN.md and Collection PLAN.md.
-- Created `README.md` for the `My Old Songs` repo and updated `App\README.md`.
-- Consolidated all documentation into `App\Docs` so it tracks on GitHub.
+- **App Feature**: Implemented a comprehensive **Clip / Trim** feature with a visual UI in the "Advanced Options" panel.
+- **App Bug Fixes**:
+    - Resolved the "FFmpeg stall" by automating the `*` prefix for time ranges.
+    - Fixed inaccurate cutting by forcing keyframes at cut points.
+    - Fixed audio truncation by re-encoding audio to AAC during trimming.
+    - Fixed the "double browser tab" issue on startup by removing duplicate `start` command in `Start.bat`.
+    - Optimized download format to prefer native MP4/M4A for better merging.
+- **Collection Management**:
+    - Added **3 new songs** (#454 - #456).
+    - Renamed and moved files from `New Audio/Video` to `Main` folders.
+    - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
+- **Infrastructure**:
+    - Updated all project documentation (PLAN.md, README.md, CHANGELOG.md) to reflect the new count of **456**.
+    - Pushed all changes to both `YT-Downloader` and `my-old-songs` GitHub repositories.
 
-**Current state:**
-- **Songs:** 452 total. Numbered exactly 1–452. NO GAPS.
-- **App:** "Both" mode implemented. Folders default to `New Audio` / `New Video`.
-- **Root folders:** Perfectly clean. Old stray folders destroyed.
-- **GitHub:** Both `YT-Downloader` and `my-old-songs` repos are 100% updated and in sync.
+**Next Steps / Pending:**
+- Continue adding songs starting from **#457**.
+- Monitor for any further audio/video sync issues with the new trimming logic.
+- Consider adding a "Precise Cut" toggle if re-encoding speed becomes an issue for the user.
 
-**Nothing left pending.**
+---
+
+## Previous Session: 2026-05-01
+
+**What was done:**
+- Fixed numbering gaps in the "My Old Songs" collection (Sequence: 1–453).
+- Added "Both (MP3+MP4)" mode and fixed folder path bugs in the app.
+- Consolidated all documentation into `App\Docs\`.
+- Created strict mandatory checklists for future AI assistants.
