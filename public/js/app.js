@@ -77,6 +77,16 @@ function applyConfig(cfg) {
   el('dateBefore').value           = cfg.dateBefore    || '';
   el('minDuration').value          = cfg.minDuration   || '';
   el('maxDuration').value          = cfg.maxDuration   || '';
+  // Restore clip UI from saved downloadSections value
+  if (cfg.downloadSections) {
+    const m = cfg.downloadSections.match(/\*(\d+):(\d+)-(\d+):(\d+)/);
+    if (m) {
+      el('clipEnabled').checked = true;
+      el('clipTimeRow').style.display = 'flex';
+      el('clipStartMin').value = m[1]; el('clipStartSec').value = m[2];
+      el('clipEndMin').value = m[3]; el('clipEndSec').value = m[4];
+    }
+  }
   el('downloadSections').value     = cfg.downloadSections || '';
   updateSubtitleRow();
 
@@ -198,7 +208,7 @@ function getAdvancedOverrides() {
     dateBefore:          el('dateBefore').value.trim(),
     minDuration:         el('minDuration').value.trim(),
     maxDuration:         el('maxDuration').value.trim(),
-    downloadSections:    el('downloadSections').value.trim(),
+    downloadSections:    buildClipValue(),
   };
 }
 
@@ -609,4 +619,25 @@ function applyProfileOverrides(data) {
   if (data.downloadSections !== undefined) el('downloadSections').value = data.downloadSections;
   updateSubtitleRow();
   showToast('Profile loaded!', 'success');
+}
+
+// ── Clip / Trim Toggle & Builder ───────────────────────────────────────────
+el('clipEnabled').addEventListener('change', function() {
+  el('clipTimeRow').style.display = this.checked ? 'flex' : 'none';
+  if (!this.checked) {
+    el('downloadSections').value = '';
+    el('clipStartMin').value = 0; el('clipStartSec').value = 0;
+    el('clipEndMin').value = 0; el('clipEndSec').value = 0;
+  }
+});
+
+function buildClipValue() {
+  if (!el('clipEnabled').checked) return '';
+  const sm = parseInt(el('clipStartMin').value) || 0;
+  const ss = parseInt(el('clipStartSec').value) || 0;
+  const em = parseInt(el('clipEndMin').value) || 0;
+  const es = parseInt(el('clipEndSec').value) || 0;
+  if (em === 0 && es === 0) return ''; // End time not set
+  const pad = n => String(n).padStart(2, '0');
+  return `*${sm}:${pad(ss)}-${em}:${pad(es)}`;
 }

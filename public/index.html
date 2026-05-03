@@ -292,9 +292,35 @@
 
       <!-- Download Sections (Clip) -->
       <div class="card adv-card">
-        <h3>✂️ Clip Section</h3>
-        <input class="drawer-input" id="downloadSections" type="text" placeholder="e.g. *1:30-3:45"/>
-        <p class="adv-hint">Download only a time range from video</p>
+        <h3>✂️ Clip / Trim</h3>
+        <div class="clip-toggle-row">
+          <label class="toggle-label" for="clipEnabled">Enable clipping</label>
+          <label class="switch">
+            <input type="checkbox" id="clipEnabled"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="clip-time-row" id="clipTimeRow" style="display:none;">
+          <div class="clip-field">
+            <label>Start</label>
+            <div class="time-inputs">
+              <input type="number" id="clipStartMin" min="0" max="999" value="0" class="time-input" placeholder="M"/>
+              <span class="time-sep">:</span>
+              <input type="number" id="clipStartSec" min="0" max="59" value="0" class="time-input" placeholder="S"/>
+            </div>
+          </div>
+          <span class="clip-arrow">→</span>
+          <div class="clip-field">
+            <label>End</label>
+            <div class="time-inputs">
+              <input type="number" id="clipEndMin" min="0" max="999" value="0" class="time-input" placeholder="M"/>
+              <span class="time-sep">:</span>
+              <input type="number" id="clipEndSec" min="0" max="59" value="0" class="time-input" placeholder="S"/>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" id="downloadSections" value=""/>
+        <p class="adv-hint">Trim the video/audio to keep only the selected time range</p>
       </div>
     </div>
 
