@@ -241,7 +241,7 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
 
     case 'Video':
       result = { args: [...base, ...adv, '-o', path.join(config.videoFolder, tpl),
-        '-f', 'bestvideo+bestaudio/best', '--merge-output-format', 'mp4',
+        '-f', 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_video.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
         folder: config.videoFolder,
@@ -250,7 +250,7 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
 
     case '4K':
       result = { args: [...base, ...adv, '-o', path.join(config.fourKFolder, tpl),
-        '-f', 'bestvideo[height<=2160]+bestaudio/best[height<=2160]', '--merge-output-format', 'mp4',
+        '-f', 'bestvideo[height<=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height<=2160]+bestaudio/best[height<=2160]', '--merge-output-format', 'mp4',
         '--download-archive', path.join(config.logsDuplicatesDir, 'duplicate_4k.txt'),
         '--embed-metadata', '--embed-thumbnail', ...speedArgs, url],
         folder: config.fourKFolder,
