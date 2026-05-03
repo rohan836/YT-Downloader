@@ -39,8 +39,8 @@ D:\YT-Downloads\
 │
 ├── My Old Songs\               ← The user's permanent song collection (VERY IMPORTANT)
 │   ├── PLAN.md                 ← Detailed collection reference (rules, naming, workflow)
-│   ├── Video (Main)\           ← 452 numbered MP4 files
-│   ├── Audio (Main)\           ← 452 numbered MP3 files
+│   ├── Video (Main)\           ← 453 numbered MP4 files
+│   ├── Audio (Main)\           ← 453 numbered MP3 files
 │   ├── Docs\
 │   │   ├── SONGS.csv           ← Song database (number, title, singer, movie, year)
 │   │   ├── AUDIO_SONGS.txt     ← List of all MP3s
