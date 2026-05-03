@@ -11,8 +11,6 @@ echo.
 echo  Starting YT-Downloader v2...
 echo.
 
-:: Open browser
-start "" http://localhost:3131
 
 :: Start the server
 node server.js
