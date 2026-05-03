@@ -215,6 +215,7 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
   if (cfg.downloadSections) {
     adv.push('--download-sections', cfg.downloadSections);
     adv.push('--force-keyframes-at-cuts');
+    adv.push('--postprocessor-args', 'ffmpeg:-c:a aac -b:a 192k');
   }
 
   const audioFmt = cfg.audioFormat || 'mp3';
