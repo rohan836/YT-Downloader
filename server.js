@@ -212,7 +212,10 @@ function buildArgs(config, url, mode, speed, overrides = {}) {
   if (maxDur > 0) adv.push('--match-filters', `duration<=${maxDur}`);
 
   // Download sections (clip)
-  if (cfg.downloadSections) adv.push('--download-sections', cfg.downloadSections);
+  if (cfg.downloadSections) {
+    adv.push('--download-sections', cfg.downloadSections);
+    adv.push('--force-keyframes-at-cuts');
+  }
 
   const audioFmt = cfg.audioFormat || 'mp3';
 
