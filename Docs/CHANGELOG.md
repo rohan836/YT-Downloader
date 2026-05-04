@@ -12,13 +12,12 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Bug Fix (Audio Truncation)**: Forced AAC re-encoding for clips to prevent audio cutting off early due to stream copy misalignment.
 - **Bug Fix (Duplicate Tabs)**: Removed redundant `start` command in `Start.bat` that caused the browser to open twice.
 - **Download Optimization**: Updated format preference to native MP4/M4A to prevent FFmpeg merge errors.
+- **App Update**: Set default download speed to **Fast** (Max Speed).
 
 ### Songs Collection
-- Added 10 new songs to the permanent collection:
-    - #454: Main Jahan Chala Jaoon (Banphool)
-    - #455: Nazron Se Keh Do (Doosara Aadmi)
-    - #456: Baaghon Mein Bahaar Aayee (Mome Ki Gudiya)
-    - #457: Yeh Shama To Jali Roshni Ke Liye (Aya Sawan Jhoom Ke)
+- **Title Verification (1-20)**: Completed web-search verification for the first 20 songs. Fixed 4 titles and filled missing metadata (Singer, Movie, Year).
+- **New Infrastructure**: Created `VERIFY_PLAN.md` and `VERIFY_LOG.md` to establish a formal verification workflow.
+- Added 6 new songs to the permanent collection:
     - #458: Sathiya Nahin Jaana
     - #459: Aadmi Musafir Hai
     - #460: Aya Sawan Jhoom Ke

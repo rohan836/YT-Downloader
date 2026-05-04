@@ -46,7 +46,7 @@ const DEFAULT_CONFIG = {
   manualCookie: '',
   browserName: 'chrome',
   defaultMode: 'Audio',
-  defaultSpeed: 'Medium',
+  defaultSpeed: 'Fast',
   ytdlpPath: 'yt-dlp',
   theme: 'dark',
   accentColor: '#7c3aed',
