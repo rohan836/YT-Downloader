@@ -39,8 +39,8 @@ D:\YT-Downloads\
 │
 ├── My Old Songs\               ← The user's permanent song collection (VERY IMPORTANT)
 │   ├── PLAN.md                 ← Detailed collection reference (rules, naming, workflow)
-│   ├── Video (Main)\           ← 457 numbered MP4 files
-│   ├── Audio (Main)\           ← 457 numbered MP3 files
+│   ├── Video (Main)\           ← 463 numbered MP4 files
+│   ├── Audio (Main)\           ← 463 numbered MP3 files
 │   ├── Docs\
 │   │   ├── SONGS.csv           ← Song database (number, title, singer, movie, year)
 │   │   ├── AUDIO_SONGS.txt     ← List of all MP3s
@@ -178,5 +178,5 @@ The PLAN.md files are the **single source of truth**. The next AI that reads the
 
 ---
 
-*Last updated: 2026-05-01*
+*Last updated: 2026-05-04*
 

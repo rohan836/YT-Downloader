@@ -14,12 +14,18 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Download Optimization**: Updated format preference to native MP4/M4A to prevent FFmpeg merge errors.
 
 ### Songs Collection
-- Added 4 new songs to the permanent collection:
+- Added 10 new songs to the permanent collection:
     - #454: Main Jahan Chala Jaoon (Banphool)
     - #455: Nazron Se Keh Do (Doosara Aadmi)
     - #456: Baaghon Mein Bahaar Aayee (Mome Ki Gudiya)
     - #457: Yeh Shama To Jali Roshni Ke Liye (Aya Sawan Jhoom Ke)
-- **Current Total: 457 songs (1-457, no gaps).**
+    - #458: Sathiya Nahin Jaana
+    - #459: Aadmi Musafir Hai
+    - #460: Aya Sawan Jhoom Ke
+    - #461: Saathi Mere Saathi
+    - #462: Somwar Ko Hum Mile
+    - #463: Bura Mat Suno Bura Mat Dekho Bura Mat Kaho
+- **Current Total: 463 songs (1-463, no gaps).**
 - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
 
 ---
