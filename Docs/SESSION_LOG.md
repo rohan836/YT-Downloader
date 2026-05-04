@@ -18,7 +18,7 @@
 - **Collection Management**:
     - Added **6 new songs** (#458 - #463).
     - Renamed and moved files from `New Audio/Video` to `Main` folders.
-    - **Verification**: Verified and fixed titles/metadata for songs **1–20** using the new `VERIFY_PLAN.md`.
+    - **Verification**: Verified and fixed titles/metadata for songs **1–100** using the new `VERIFY_PLAN.md`.
     - Created `VERIFY_PLAN.md` and `VERIFY_LOG.md` to track verification work.
     - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
 - **App Update**: Set default download speed to **Fast** in both server config and UI.

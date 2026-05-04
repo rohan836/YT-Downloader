@@ -15,7 +15,7 @@ All changes to the YT-Downloads workspace, logged by session.
 - **App Update**: Set default download speed to **Fast** (Max Speed).
 
 ### Songs Collection
-- **Title Verification (1-20)**: Completed web-search verification for the first 20 songs. Fixed 4 titles and filled missing metadata (Singer, Movie, Year).
+- **Title Verification (1-100)**: Completed web-search verification for the first 100 songs. Fixed titles and filled missing metadata (Singer, Movie, Year).
 - **New Infrastructure**: Created `VERIFY_PLAN.md` and `VERIFY_LOG.md` to establish a formal verification workflow.
 - Added 6 new songs to the permanent collection:
     - #458: Sathiya Nahin Jaana
