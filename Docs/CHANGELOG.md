@@ -4,7 +4,7 @@ All changes to the YT-Downloads workspace, logged by session.
 
 ---
 
-## 2026-05-04 (Session 3)
+## 2026-05-05 (Session 3)
 
 ### YT-Downloader App
 - **New Feature: Clip / Trim UI**: Added a visual time-range selector with a toggle switch in the "Advanced Options" panel.
@@ -15,7 +15,7 @@ All changes to the YT-Downloads workspace, logged by session.
 - **App Update**: Set default download speed to **Fast** (Max Speed).
 
 ### Songs Collection
-- **Title Verification (1-100)**: Completed web-search verification for the first 100 songs. Fixed titles and filled missing metadata (Singer, Movie, Year).
+- **Title Verification (1-150)**: Completed web-search verification for the first 150 songs. Fixed titles and filled missing metadata (Singer, Movie, Year).
 - **New Infrastructure**: Created `VERIFY_PLAN.md` and `VERIFY_LOG.md` to establish a formal verification workflow.
 - Added 6 new songs to the permanent collection:
     - #458: Sathiya Nahin Jaana
