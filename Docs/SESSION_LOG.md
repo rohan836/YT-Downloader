@@ -16,22 +16,23 @@
     - Fixed the "double browser tab" issue on startup by removing duplicate `start` command in `Start.bat`.
     - Optimized download format to prefer native MP4/M4A for better merging.
 - **Collection Management**:
-    - Added **6 new songs** (#458 - #463).
-    - Renamed and moved files from `New Audio/Video` to `Main` folders.
-    - **Verification**: Completed systematic verification for all **463 songs** in the library. All titles standardized and metadata filled.
+    - Added **2 new songs** (#464 - #465).
+    - #464: Mohabbat Ab Tijarat Ban Gayi (Arpan, 1983)
+    - #465: Kya Hua Tera Wada (Hum Kisise Kum Naheen, 1977)
+    - **Verification**: Completed systematic verification for all **465 songs** in the library. All titles standardized and metadata filled.
     - Created `VERIFY_PLAN.md` and `VERIFY_LOG.md` to track verification work.
-    - **Embedded metadata tags** (Title, Artist, Album, Year, Track) into all 926 files using ffmpeg.
-    - **Renamed all 926 files** to new standard format: `{Num} {Title} - {Singer} - {Movie} - {Year}.mp3/.mp4`
+    - **Embedded metadata tags** (Title, Artist, Album, Year, Track) into all 930 files using ffmpeg.
+    - **Renamed all 930 files** to new standard format: `{Num} {Title} - {Singer} - {Movie} - {Year}.mp3/.mp4`
     - Updated all plan docs (`PLAN.md`, `VERIFY_PLAN.md`, `VERIFY_LOG.md`, `README.md`) with new format.
     - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
 - **App Update**: Set default download speed to **Fast** in both server config and UI.
 - **Infrastructure**:
-    - Updated all project documentation to reflect the new count of **463** and the new filename format.
+    - Updated all project documentation to reflect the new count of **465** and the new filename format.
     - Pushed all changes to both `YT-Downloader` and `my-old-songs` GitHub repositories.
 
 **Current State:**
-- **Total Songs:** 463 (all verified, tagged, and renamed)
-- **Next Number:** 464
+- **Total Songs:** 465 (all verified, tagged, and renamed)
+- **Next Number:** 466
 - **Filename Format:** `{Num} {Title} - {Singer} - {Movie} - {Year}`
 - **Metadata Tags:** Embedded in all files
 

@@ -10,6 +10,10 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Metadata Tags Embedded**: Used ffmpeg to write Title, Artist, Album, Year, and Track into all 926 files (463 audio + 463 video).
 - **Full Format Rename**: Renamed all 926 files from `{Num} {Title}` to `{Num} {Title} - {Singer} - {Movie} - {Year}`.
 - **Documentation Update**: Updated `PLAN.md`, `VERIFY_PLAN.md`, `VERIFY_LOG.md`, `README.md`, and `App/Docs/PLAN.md` to reflect the new standard filename format and web-search workflow for new songs.
+- **Added 2 new songs** to the permanent collection:
+    - #464: Mohabbat Ab Tijarat Ban Gayi (Anwar - Arpan, 1983)
+    - #465: Kya Hua Tera Wada (Mohammed Rafi, Sushma Shrestha - Hum Kisise Kum Naheen, 1977)
+- **Current Total: 465 songs (1-465, no gaps).**
 
 ---
 
