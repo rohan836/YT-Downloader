@@ -39,8 +39,8 @@ D:\YT-Downloads\
 │
 ├── My Old Songs\               ← The user's permanent song collection (VERY IMPORTANT)
 │   ├── PLAN.md                 ← Detailed collection reference (rules, naming, workflow)
-│   ├── Video (Main)\           ← 463 numbered MP4 files
-│   ├── Audio (Main)\           ← 463 numbered MP3 files
+│   ├── Video (Main)\           ← 463 numbered MP4 files (format: {Num} {Title} - {Singer} - {Movie} - {Year}.mp4)
+│   ├── Audio (Main)\           ← 463 numbered MP3 files (format: {Num} {Title} - {Singer} - {Movie} - {Year}.mp3)
 │   ├── Docs\
 │   │   ├── SONGS.csv           ← Song database (number, title, singer, movie, year)
 │   │   ├── AUDIO_SONGS.txt     ← List of all MP3s
@@ -68,8 +68,12 @@ D:\YT-Downloads\
 **Key things you MUST do:**
 - Clean YouTube junk from filenames (remove singer names, actor names, movie names, HD/4K tags, emojis)
 - **Hindi text** — some filenames will be in Hindi/Devanagari script. You must transliterate them to English. Example: "मुझे ऐसा मिला मोती" → "Mujhe Aisa Mila Moti"
+- **Web search** for each song to find: Singer(s), Movie, Year
+- Name files in the full format: `{Num} {Title} - {Singer} - {Movie} - {Year}.mp3/.mp4`
 - Number each song starting from the next available number
 - Move both the .mp4 AND .mp3 to the Main folders
+- **Embed metadata tags** using ffmpeg (title, artist, album, date, track)
+- Add rows to `SONGS.csv` with full metadata
 - Verify counts match after moving
 - Update the song list files
 - Push to GitHub
@@ -178,5 +182,5 @@ The PLAN.md files are the **single source of truth**. The next AI that reads the
 
 ---
 
-*Last updated: 2026-05-04*
+*Last updated: 2026-05-07*
 

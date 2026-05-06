@@ -5,7 +5,7 @@
 
 ---
 
-## Last Session: 2026-05-05 (Current)
+## Last Session: 2026-05-07 (Current)
 
 **What was done:**
 - **App Feature**: Implemented a comprehensive **Clip / Trim** feature with a visual UI in the "Advanced Options" panel.
@@ -20,16 +20,25 @@
     - Renamed and moved files from `New Audio/Video` to `Main` folders.
     - **Verification**: Completed systematic verification for all **463 songs** in the library. All titles standardized and metadata filled.
     - Created `VERIFY_PLAN.md` and `VERIFY_LOG.md` to track verification work.
+    - **Embedded metadata tags** (Title, Artist, Album, Year, Track) into all 926 files using ffmpeg.
+    - **Renamed all 926 files** to new standard format: `{Num} {Title} - {Singer} - {Movie} - {Year}.mp3/.mp4`
+    - Updated all plan docs (`PLAN.md`, `VERIFY_PLAN.md`, `VERIFY_LOG.md`, `README.md`) with new format.
     - Regenerated `SONGS.csv`, `AUDIO_SONGS.txt`, and `VIDEO_SONGS.txt`.
 - **App Update**: Set default download speed to **Fast** in both server config and UI.
 - **Infrastructure**:
-    - Updated all project documentation to reflect the new count of **463**.
+    - Updated all project documentation to reflect the new count of **463** and the new filename format.
     - Pushed all changes to both `YT-Downloader` and `my-old-songs` GitHub repositories.
 
+**Current State:**
+- **Total Songs:** 463 (all verified, tagged, and renamed)
+- **Next Number:** 464
+- **Filename Format:** `{Num} {Title} - {Singer} - {Movie} - {Year}`
+- **Metadata Tags:** Embedded in all files
+
 **Next Steps / Pending:**
-- Continue adding songs starting from **#464**.
+- Continue adding songs starting from **#464** using the new format.
+- All new songs must be web-searched for metadata before naming.
 - Monitor for any further audio/video sync issues with the new trimming logic.
-- Consider adding a "Precise Cut" toggle if re-encoding speed becomes an issue for the user.
 
 ---
 

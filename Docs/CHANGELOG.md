@@ -4,6 +4,15 @@ All changes to the YT-Downloads workspace, logged by session.
 
 ---
 
+## 2026-05-07 (Session 4)
+
+### Songs Collection
+- **Metadata Tags Embedded**: Used ffmpeg to write Title, Artist, Album, Year, and Track into all 926 files (463 audio + 463 video).
+- **Full Format Rename**: Renamed all 926 files from `{Num} {Title}` to `{Num} {Title} - {Singer} - {Movie} - {Year}`.
+- **Documentation Update**: Updated `PLAN.md`, `VERIFY_PLAN.md`, `VERIFY_LOG.md`, `README.md`, and `App/Docs/PLAN.md` to reflect the new standard filename format and web-search workflow for new songs.
+
+---
+
 ## 2026-05-05 (Session 3)
 
 ### YT-Downloader App
