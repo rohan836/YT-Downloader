@@ -10,11 +10,14 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Metadata Tags Embedded**: Used ffmpeg to write Title, Artist, Album, Year, and Track into all 926 files (463 audio + 463 video).
 - **Full Format Rename**: Renamed all 926 files from `{Num} {Title}` to `{Num} {Title} - {Singer} - {Movie} - {Year}`.
 - **Documentation Update**: Updated `PLAN.md`, `VERIFY_PLAN.md`, `VERIFY_LOG.md`, `README.md`, and `App/Docs/PLAN.md` to reflect the new standard filename format and web-search workflow for new songs.
-- **Added 3 new songs** to the permanent collection:
+- **Added 6 new songs** to the permanent collection:
     - #464: Mohabbat Ab Tijarat Ban Gayi (Anwar - Arpan, 1983)
     - #465: Kya Hua Tera Wada (Mohammed Rafi, Sushma Shrestha - Hum Kisise Kum Naheen, 1977)
     - #466: O Saathi Re Tere Bina Bhi Kya Jeena (Kishore Kumar - Muqaddar Ka Sikandar, 1978)
-- **Current Total: 466 songs (1-466, no gaps).**
+    - #467: Tauba Kaise Hai Nadan Ghunghroo Payal Ke (Lata Mangeshkar - Arpan, 1983)
+    - #468: Ek Din Bik Jayega Mati Ke Mol (Mukesh - Dharam Karam, 1975)
+    - #469: Pardes Jake Pardesia (Lata Mangeshkar - Arpan, 1983)
+- **Current Total: 469 songs (1-469, no gaps).**
 
 ---
 
