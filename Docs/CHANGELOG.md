@@ -11,6 +11,7 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Fixed Song #450**: Corrected misnamed song #450 to *Tum Saath Ho Jab Apne* (Kaalia, 1981). Removed the temporary "Part 2" suffix.
 - **Corrected Song #449**: Found that #449 was actually *Maine Tujhe Manga (Short Version)* from *Deewaar* (1975) and fixed its metadata accordingly.
 - **Corrected Song #5**: Discovered that song #5 was mislabeled as *Bahut Der Tumne Sataya Hai Mujhko* but actually contained *Roop Tera Mastana* (Kishore Kumar - Aradhana - 1969). Corrected the title, tags, and database row.
+- **Downloaded Favorite #2**: Located and downloaded the *actual* song *Bahut Der Tumne Sataya Hai Mujhko* (Asha Bhosle - Man Ki Aankhen - 1970) from YouTube and added it to the `My Favorites` collection as Song #2.
 - **Library Audit (Duplicates Fixed)**: Discovered sets of duplicates that were incorrectly labeled by the AI. Fixed #209, #329, #66, and #357 to reflect their true audio content, marked as Part 1 and Part 2.
 - **Corrected Song #464**: Downloaded the real *Mohabbat Ab Tijarat Ban Gayi* (Anwar - Arpan - 1983) from YouTube, fully replaced the mislabeled audio/video files, and reverted #463 back to its standard name.
 

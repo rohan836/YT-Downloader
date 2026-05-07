@@ -16,6 +16,7 @@
     - **Fixed Song #450**: Corrected misnamed song #450 to *Tum Saath Ho Jab Apne* (Kaalia, 1981). Removed the temporary "Part 2" suffix.
     - **Corrected Song #449**: Found that #449 was actually *Maine Tujhe Manga (Short Version)* from *Deewaar* (1975) and fixed its metadata accordingly. Updated filenames and metadata tags for both.
     - **Corrected Song #5**: Discovered that song #5 was mislabeled as *Bahut Der Tumne Sataya Hai Mujhko* but actually contained *Roop Tera Mastana* (Kishore Kumar - Aradhana - 1969). Corrected the title, tags, and database row.
+    - **Downloaded Favorite #2**: Located and downloaded the *actual* song *Bahut Der Tumne Sataya Hai Mujhko* (Asha Bhosle - Man Ki Aankhen - 1970) from YouTube and added it to the `My Favorites` collection as Song #2.
     - **Library Audit (Mislabeled Duplicates Fixed)**: Ran a full library scan and identified duplicate sets where the AI had mislabeled identical files with different titles. Fixed #66, #209, #329, and #357 to accurately reflect their true audio content and marked them as Part 1/Part 2.
     - **Corrected Song #464**: Downloaded the real *Mohabbat Ab Tijarat Ban Gayi* (Anwar - Arpan - 1983) from YouTube to replace the mislabeled audio/video files, and reverted #463 back to its standard name.
     - Regenerated `Docs\VIDEO_SONGS.txt` and `Docs\AUDIO_SONGS.txt`.
