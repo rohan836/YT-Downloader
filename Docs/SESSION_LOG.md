@@ -9,7 +9,7 @@
 
 **What was done:**
 - **Collection Management**:
-    - Renamed songs #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **(Part 1)** and **(Part 2)** respectively.
+    - Renamed songs #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **Part 1** and **Part 2** at the beginning of the title (e.g., "338 Part 1 Ab Ke Sajan Sawan Mein...") respectively.
     - Updated filenames for both Audio and Video versions (4 files total).
     - Updated metadata tags (Title) using ffmpeg for all 4 files.
     - Updated `Docs\SONGS.csv` with the new titles.

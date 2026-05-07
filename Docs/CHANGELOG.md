@@ -7,7 +7,7 @@ All changes to the YT-Downloads workspace, logged by session.
 ## 2026-05-08 (Session 5)
 
 ### Songs Collection
-- **Distinguished Multi-Part Songs**: Renamed #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **(Part 1)** and **(Part 2)** in filenames, metadata tags, and documentation.
+- **Distinguished Multi-Part Songs**: Renamed #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **Part 1** and **Part 2** at the beginning of the title (e.g., "338 Part 1 Ab Ke Sajan Sawan Mein...") in filenames, metadata tags, and documentation.
 
 ---
 +
