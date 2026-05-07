@@ -4,7 +4,14 @@ All changes to the YT-Downloads workspace, logged by session.
 
 ---
 
-## 2026-05-07 (Session 4)
+## 2026-05-08 (Session 5)
++
++### Songs Collection
++- **Distinguished Multi-Part Songs**: Renamed #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **(Part 1)** and **(Part 2)** in filenames, metadata tags, and documentation.
++
++---
++
++## 2026-05-07 (Session 4)
 
 ### Songs Collection
 - **Metadata Tags Embedded**: Used ffmpeg to write Title, Artist, Album, Year, and Track into all 926 files (463 audio + 463 video).

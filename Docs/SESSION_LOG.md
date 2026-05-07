@@ -5,7 +5,26 @@
 
 ---
 
-## Last Session: 2026-05-07 (Current)
+## Last Session: 2026-05-08 (Current)
+
+**What was done:**
+- **Collection Management**:
+    - Renamed songs #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **(Part 1)** and **(Part 2)** respectively.
+    - Updated filenames for both Audio and Video versions (4 files total).
+    - Updated metadata tags (Title) using ffmpeg for all 4 files.
+    - Updated `Docs\SONGS.csv` with the new titles.
+    - Regenerated `Docs\VIDEO_SONGS.txt` and `Docs\AUDIO_SONGS.txt`.
+- **Infrastructure**:
+    - Pushed changes to both `YT-Downloader` and `my-old-songs` GitHub repositories.
+
+**Current State:**
+- **Total Songs:** 469
+- **Next Number:** 470
+- **Format Consistency:** #338 and #339 now distinguished as Part 1 and Part 2.
+
+---
+
+## Previous Session: 2026-05-07
 
 **What was done:**
 - **App Feature**: Implemented a comprehensive **Clip / Trim** feature with a visual UI in the "Advanced Options" panel.
