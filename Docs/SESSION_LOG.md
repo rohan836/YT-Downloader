@@ -15,6 +15,7 @@
     - Updated `Docs\SONGS.csv` with the new titles.
     - **Fixed Song #450**: Corrected misnamed song #450 to *Tum Saath Ho Jab Apne* (Kaalia, 1981). Removed the temporary "Part 2" suffix.
     - **Corrected Song #449**: Found that #449 was actually *Maine Tujhe Manga (Short Version)* from *Deewaar* (1975) and fixed its metadata accordingly. Updated filenames and metadata tags for both.
+    - **Library Audit (Mislabeled Duplicates Fixed)**: Ran a full library scan and identified 3 duplicate sets where the AI had mislabeled identical files with different titles. Fixed #66, #209, #329, #357, #463, and #464 to accurately reflect their true audio content and marked them as Part 1/Part 2.
     - Regenerated `Docs\VIDEO_SONGS.txt` and `Docs\AUDIO_SONGS.txt`.
 - **Infrastructure**:
     - Pushed changes to both `YT-Downloader` and `my-old-songs` GitHub repositories.
