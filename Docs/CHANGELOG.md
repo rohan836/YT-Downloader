@@ -10,7 +10,8 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Distinguished Multi-Part Songs**: Renamed #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **Part 1** and **Part 2** at the beginning of the title.
 - **Fixed Song #450**: Corrected misnamed song #450 to *Tum Saath Ho Jab Apne* (Kaalia, 1981). Removed the temporary "Part 2" suffix.
 - **Corrected Song #449**: Found that #449 was actually *Maine Tujhe Manga (Short Version)* from *Deewaar* (1975) and fixed its metadata accordingly.
-- **Library Audit (Duplicates Fixed)**: Discovered 3 sets of duplicates that were incorrectly labeled by the AI. Fixed #209, #329, #463, #464, #66, and #357 to reflect their true audio content, marked as Part 1 and Part 2.
+- **Library Audit (Duplicates Fixed)**: Discovered sets of duplicates that were incorrectly labeled by the AI. Fixed #209, #329, #66, and #357 to reflect their true audio content, marked as Part 1 and Part 2.
+- **Corrected Song #464**: Downloaded the real *Mohabbat Ab Tijarat Ban Gayi* (Anwar - Arpan - 1983) from YouTube, fully replaced the mislabeled audio/video files, and reverted #463 back to its standard name.
 
 ---
 +
