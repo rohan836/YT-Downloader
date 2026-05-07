@@ -8,7 +8,8 @@ All changes to the YT-Downloads workspace, logged by session.
 
 ### Songs Collection
 - **Distinguished Multi-Part Songs**: Renamed #338 and #339 ("Ab Ke Sajan Sawan Mein") to include **Part 1** and **Part 2** at the beginning of the title.
-- **Fixed Song #450**: Corrected misnamed song #450 (was *Mere Sapno Ki Rani*) to *Part 2 Tum Saath Ho Jab Apne* (Kaalia, 1981). Distinguished it from #449 as Part 1.
+- **Fixed Song #450**: Corrected misnamed song #450 to *Tum Saath Ho Jab Apne* (Kaalia, 1981). Removed the temporary "Part 2" suffix.
+- **Corrected Song #449**: Found that #449 was actually *Maine Tujhe Manga (Short Version)* from *Deewaar* (1975) and fixed its metadata accordingly.
 
 ---
 +
