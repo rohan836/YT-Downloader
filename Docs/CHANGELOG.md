@@ -17,6 +17,13 @@ All changes to the YT-Downloads workspace, logged by session.
 - **Physically Moved Favorite #3 & Compacted Main Library**: Moved *Aaj Mohabbat Band Hai* (originally #6) to Favorites as Song #3. Filled slot #6 by moving the last song in the main library (originally #468, *Ek Din Bik Jayega Mati Ke Mol*), renaming/retagging files and updating master records. The main library is now fully sequential up to 467 songs with zero gaps.
 - **Library Audit (Duplicates Fixed)**: Discovered sets of duplicates that were incorrectly labeled by the AI. Fixed #209, #329, #66, and #357 to reflect their true audio content, marked as Part 1 and Part 2.
 - **Corrected Song #464**: Downloaded the real *Mohabbat Ab Tijarat Ban Gayi* (Anwar - Arpan - 1983) from YouTube, fully replaced the mislabeled audio/video files, and reverted #463 back to its standard name.
+- **Second Batch favorites migration with Compaction**: Migrated songs `20, 18, 16, 9, 1, 2` to Favorites sequentially (Favorite #12 to #17), compacting the main library for each move.
+- **Master Library Reconstruction & Reconciliation**: Re-indexed the entire main library of 453 songs sequentially (1 to 453) to eliminate all historical crashes/gaps and updated track metadata tags using ffmpeg copy mode, outputting a 100% pristine and synchronized database.
+- **No-Compaction Batch Migrations**: Processed user requests to move batches of songs (`29, 30, 32, 33, 34, 40, 41, 37, 86, 101`, `#24`, and `35, 36, 39, 43, 52, 55, 54`) into Favorites sequentially without compacting or renumbering the main library as explicitly instructed.
+- **Favorites Return & Compaction**: Returned Favorites #21 and #23 back to the main library at the end as Main #454 and #455, and successfully compacted/renumbered the remaining Favorites to keep them fully contiguous (1 to 25).
+- **Final No-Compaction Batch Migration**: Moved `129 131 132 134 140 141 142 143 144 145 453 452 451 450 449 448 446 440` into Favorites sequentially without compaction.
+- **Final Collection Counts**: Main Library stands at exactly **419 songs** (retaining gaps/original index numbering for other songs), and Favorites Library is fully consecutive and aligned at exactly **51 songs**.
+
 
 ---
 +
